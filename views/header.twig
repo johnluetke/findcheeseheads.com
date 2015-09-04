@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>FindCheeseheads.com</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{config.GOOGLE_API_KEY}}&libraries=places"></script>
+        <script src="/scripts/address-validator.js"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top"> 
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapsable" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Find Cheeseheads</a>
+                </div>
+                <div id="navbar-collapsable" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Browse</span></a></li>
+                        <li><a href="/search.php">Find</span></a></li>
+                        <li><a href="/add.php">Add</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
