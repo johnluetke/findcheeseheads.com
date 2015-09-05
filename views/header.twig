@@ -1,3 +1,5 @@
+<?php include("config.php"); ?>
+
 <html>
     <head>
         <title>FindCheeseheads.com</title>
@@ -5,7 +7,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{config.GOOGLE_API_KEY}}&libraries=places"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9v9Fz3bIPgZ4Ri-B9NS0E7Q7_Bkj-FMg&libraries=places"></script>
         <script src="/scripts/address-validator.js"></script>
     </head>
 
@@ -23,7 +25,7 @@
                 </div>
                 <div id="navbar-collapsable" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Browse</span></a></li>
+                        <li><a href="/browse.php">Browse</span></a></li>
                         <li><a href="/search.php">Find</span></a></li>
                         <li><a href="/add.php">Add</a></li>
                     </ul>
