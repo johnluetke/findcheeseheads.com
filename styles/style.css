@@ -19,3 +19,30 @@
 .jumbotron .container > * {
     z-index: 1;
 }
+
+.listing {
+    display: table;
+    margin-left: 0px;
+}
+
+.listing > * {
+    display: table-cell;
+}
+
+.listing .vote {
+    vertical-align: middle;
+    padding-right: 15px;
+}
+
+.listing .actions {
+    padding: 0;
+}
+
+.listing .actions * {
+    list-style-type: none;
+    display: inline;
+}
+
+.listing .actions a {
+    cursor: pointer;
+}
