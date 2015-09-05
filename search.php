@@ -34,17 +34,7 @@ if (isset($_GET['q'])) {
     </div>
     <?php } else { ?>
     <?php foreach ($results as $row) { ?>
-    <div class="row">
-        <div class="vote"></div>
-        <div class="info">
-            <h2><?php echo $row['name'];?></h2>
-            <p><?php echo $row['address'];?></p>
-        </div>
-        <ul class-"small">
-            <li>Edit</li>
-            <li>Report Issue</li>
-        </ul>
-    </div>
+    <?php include("views/listing.twig"); ?>
     <?php } ?>
     <?php } ?>
 </div>
