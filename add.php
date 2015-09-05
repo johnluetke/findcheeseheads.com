@@ -10,8 +10,8 @@ if (isset($_POST)) {
 
     $db = new PDO(sprintf("mysql:host=%s;dbname=%s", DATABASE_HOST, DATABASE_NAME), DATABASE_USER, DATABASE_PASS);
 
-    $stmt = $db->prepare("INSERT INTO Place (name, address) VALUES(?, ?);");
-    $r = $stmt->execute(array($data['name'], $data['address']));
+    $stmt = $db->prepare("INSERT INTO Place (name, address, lat, lng) VALUES(?, ?, ? ,?);");
+    $r = $stmt->execute(array($data['name'], $data['address'], $data['lat'], $data['lng']));
 }
 ?>
 
@@ -37,9 +37,8 @@ if (isset($_POST)) {
                 <div class="form-group">
                     <label>Address</label>
                     <textarea class="form-control" name="address" id="address" placeholder="Address"></textarea>
-                </div>
-                <div class="form-group">
-                    <img id="map" style="width: 200; height: 200"/>
+                    <input type="hidden" name="lat" />
+                    <input type="hidden" name="lng" />
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-default" value="Submit for Review" />
