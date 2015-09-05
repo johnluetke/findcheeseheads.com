@@ -1,12 +1,5 @@
 <?php include("views/header.twig"); ?>
 
-<div class="jumbotron" style="background-image: url('images/banner.jpg');">
-    <div class="container">
-        <h1 style="color: #FFB612;">Find Packer Bars Near You</h1>
-        <p><form action="search.php" method="get">
-        <input type="Search" class="form-control" name="q" value="<?php echo $_GET['q'];?>" placeholder="Search"></form></p>
-    </div>
-</div>
 
 <div class="container">
     <div class="row">
