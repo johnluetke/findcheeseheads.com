@@ -12,22 +12,23 @@ if (isset($_GET['q'])) {
 
 <div class="container">
     <?php if (!isset($_GET['q'])) { ?>
-    <div class="row">
-        <h2>Use the field above to search</h2>
-    </div>
+    <h2>Use the field above to search</h2>
     <?php } else if (sizeof($results) == 0) { ?>
-    <div class="row">
-        <h2>No bars were found :-(</h2>
-        <div class="row align-center">
-            <a href="/add.php">
-                <button type="button" class="btn btn-default">Why not add one?</button>
-            </a>
-        </div>
+    <h2>No bars were found :-(</h2>
+    <div class="center-block text-center">
+        <a href="/add.php">
+            <button type="button" class="btn btn-default">Why not add one?</button>
+        </a>
     </div>
     <?php } else { ?>
     <?php foreach ($results as $row) { ?>
     <?php include("views/listing.twig"); ?>
     <?php } ?>
+    <div class="center-block text-center">
+        <a href="/add.php">
+            <button type="button" class="btn btn-default">Know of another? Add it!</button>
+        </a>
+    </div>
     <?php } ?>
 </div>
 
