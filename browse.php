@@ -2,7 +2,7 @@
 include("views/header.twig");
 
 $db = new PDO(sprintf("mysql:host=%s;dbname=%s", DATABASE_HOST, DATABASE_NAME), DATABASE_USER, DATABASE_PASS);
-$r = $db->query("SELECT * FROM Place WHERE pending = 0;");
+$r = $db->query("SELECT * FROM Place WHERE pending = 0 ORDER BY name ASC;");
 $results = $r->fetchAll();
 ?>
 
