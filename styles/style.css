@@ -16,6 +16,10 @@ textarea {
     height: 150px;
 }
 
+.navbar {
+    margin-bottom: 0px;
+}
+
 .jumbotron {
     background-color: #203731;
     display: block;
