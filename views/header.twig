@@ -39,7 +39,7 @@
                 <h1 style="color: #FFB612;">Find Cheeseheads Near You</h1>
                 <form id="search" action="search.php" method="get">
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" name="q" placeholder="Search" />
+                    <input type="text" class="form-control" name="q" placeholder="Search" value="<?php echo $_GET['q']; ?>" />
                     <i class="glyphicon glyphicon-search form-control-feedback"></i>
                 </div>
                 </form>
