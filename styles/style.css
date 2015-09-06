@@ -1,3 +1,17 @@
+textarea {
+    resize: none;
+}
+
+#add-place input[type='submit'] {
+    float: left;
+}
+
+#add-place #review-text {
+    float: right;
+    width: 50%;
+}
+
+
 .jumbotron {
     background-color: #203731;
     display: block;

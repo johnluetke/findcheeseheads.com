@@ -15,37 +15,45 @@ if (isset($_POST)) {
 }
 ?>
 
-<div class="jumbotron" style="background-image: url('images/banner.jpg');">
-    <div class="container">
-        <h1 style="color: #FFB612;">Find Packer Bars Near You</h1>
-        <p><form action="search.php" method="get">
-        <input type="Search" class="form-control" name="q" value="<?php echo $_GET['q'];?>" placeholder="Search"></form></p>
-    </div>
-</div>
-
 <div class="container">
     <?php if ($r) { ?>
     <div class="alert alert-success" role="alert">Thanks! Your submission will be reviewed shortly.</div>
     <?php } ?>
-    <div class="row">
-        <div class="col-md-6">
-            <form method="post" id="add">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="Name"/>
-                </div>
-                <div class="form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" name="address" id="address" placeholder="Address"></textarea>
-                    <input type="hidden" name="lat" />
-                    <input type="hidden" name="lng" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-default" value="Submit for Review" />
-                </div>
-            </form>
+    <form id="add-place" method="post" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label for="place-name" class="control-label">Venue Name</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" id="place-name" name="name" class="form-control" placeholder="Bart's Bar and Grill"/>
+            </div>
         </div>
-    </div>
+
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label for="place-address" class="control-label">Address</label>
+            </div>
+            <div class="col-sm-8">
+                <textarea class="form-control" name="address" id="place-address" placeholder="1265 Lombardi Ave
+Green Bay, WI 54304" rows="3"></textarea>
+                <input type="hidden" name="lat" />
+                <input type="hidden" name="lng" />
+            </div>
+            <div class="col-sm-2 col-xs-12">
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <input type="submit" class="btn btn-primary" value="Submit for Review" />
+                <div id="review-text">
+                    <em class="small">Our staff will approve your submission after review. Reviews may take up to two days.</em>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 <?php include("views/footer.twig"); ?>
