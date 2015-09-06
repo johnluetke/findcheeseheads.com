@@ -2,6 +2,7 @@
     background-color: #203731;
     display: block;
     position: relative;
+    padding-top: 48px !important;
 }
 
 .jumbotron:before {
