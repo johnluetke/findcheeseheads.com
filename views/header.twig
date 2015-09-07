@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>FindCheeseheads.com</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/styles/bootstrap-custom.min.css" />
         <link rel="stylesheet" href="/styles/style.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"></script>
@@ -13,7 +13,7 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-inverse navbar-static-top"> 
+        <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapsable" aria-expanded="false" aria-controls="navbar">
@@ -39,7 +39,7 @@
                 <h1 style="color: #FFB612;">Find Cheeseheads Near You</h1>
                 <form id="search" action="search.php" method="get">
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" name="q" placeholder="Search" value="<?php echo $_GET['q']; ?>" />
+                    <input type="text" class="form-control" name="q" placeholder="Search by name or address" value="<?php echo $_GET['q']; ?>" />
                     <i class="glyphicon glyphicon-search form-control-feedback"></i>
                 </div>
                 </form>
