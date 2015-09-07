@@ -1,1 +1,6 @@
 config.php
+node_modules/
+vendor/
+
+**/*.min.css
+**/*.swp
