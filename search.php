@@ -12,8 +12,20 @@ if (isset($_GET['q'])) {
 ?>
 
 <div class="container">
+    <h2 class="page-header">Search</h2>
+</div>
+
+<div class="container">
+    <form id="search" action="search.php" method="get">
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control" name="q" placeholder="Search by name or address" value="<?php echo $_GET['q']; ?>" />
+            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+         </div>
+    </form>
+</div>
+
+<div class="container">
     <?php if (!isset($_GET['q'])) { ?>
-    <h2>Use the field above to search</h2>
     <?php } else if (sizeof($results) == 0) { ?>
     <h2>No bars were found :-(</h2>
     <div class="center-block text-center">

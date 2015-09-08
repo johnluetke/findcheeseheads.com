@@ -8,6 +8,10 @@ $results = $r->fetchAll();
 ?>
 
 <div class="container">
+    <h2 class="page-header">Browse</h2>
+</div>
+
+<div class="container">
     <?php foreach ($results as $row) { ?>
     <?php include("views/listing.twig"); ?>
     <?php } ?>
