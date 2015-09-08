@@ -1,24 +1,29 @@
 <?php include("views/header.twig"); ?>
 
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+<div class="cover">
+    <div class="jumbotron vertical-center">
+        <div class="container">
+            <h1 class="text-nowrap">Find Cheeseheads<span class="hidden-sm hidden-xs"> Near You</span></h1>
+            <form id="search" action="search.php" method="get">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control input-lg" name="q" placeholder="Search by city or country" value="<?php echo $_GET['q']; ?>" />
+                    <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                </div>
+            </form>
+            <p class="lead text-center">Not sure which local watering holes will welcome you on gameday? Find out above.</p>
         </div>
     </div>
 </div>
 
-<?php include("views/footer.twig"); ?>
+<footer class="sticky-footer">
+    <div class="container">
+        <p class="pull-left">&copy; FindCheeseheads.com 2015</p>
+        <p class="pull-right small">A product of <a href="http://www.reddit.com/r/GreenBayPackers" target="_blank">/r/GreenBayPackers</a> and <a href="http://www.reddit.com/r/FindCheeseheads" target="_blank">/r/FindCheeseheads</a></p>
+    </div>
+</footer>
+
+<script>
+$(document).ready(function() {
+    $(".cover .jumbotron h1").fitText(1.2);
+});
+</script>
