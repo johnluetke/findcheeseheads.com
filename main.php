@@ -16,9 +16,10 @@
 </div>
 
 <footer class="sticky-footer">
-    <div class="container">
-        <p class="pull-left">&copy; FindCheeseheads.com 2015</p>
-        <p class="pull-right small">A product of <a href="http://www.reddit.com/r/GreenBayPackers" target="_blank">/r/GreenBayPackers</a> and <a href="http://www.reddit.com/r/FindCheeseheads" target="_blank">/r/FindCheeseheads</a></p>
+    <div class="container small">
+        <p class="pull-left">&copy; 2015 FindCheeseheads.com</p>
+        <p class="pull-right">A product of <a href="http://www.reddit.com/r/GreenBayPackers" target="_blank">/r/GreenBayPackers</a> and <a href="http://www.reddit.com/r/FindCheeseheads" target="_blank">/r/FindCheeseheads</a></p>
+        <p class="pull-right" style="clear: right;">Image Credit AP/Mike Roemer</p>
     </div>
 </footer>
 
