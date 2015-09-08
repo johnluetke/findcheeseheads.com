@@ -1,5 +1,6 @@
 <?php
 include("views/header.twig");
+include("views/navbar.twig");
 
 if (isset($_POST)) {
     $data = array();
