@@ -9,12 +9,18 @@ if (isset($_POST)) {
         $data[$k] = $v;
     }
 
-    $db = new PDO(sprintf("mysql:host=%s;dbname=%s", DATABASE_HOST, DATABASE_NAME), DATABASE_USER, DATABASE_PASS);
+    $db = new PDO(sprintf("mysql:host=%s;dbname=%s", DATABASE_HOST, DATABASE_NAME), DATABASE_USER_W, DATABASE_PASS);
 
     $stmt = $db->prepare("INSERT INTO Place (name, address, lat, lng) VALUES(?, ?, ? ,?);");
     $r = $stmt->execute(array($data['name'], $data['address'], $data['lat'], $data['lng']));
 }
 ?>
+
+<div class="container">
+    <h2 class="page-header">Add a Venue</h2>
+    <p><strong>Find Cheeseheads</strong> is a community-driven resource. As such, we rely on the community to share Packer bars and gathering spots throughout the world.</p>
+    <p>All venues found here have been submitted <strong>by Cheeseheads, for Cheeseheads</strong>. Please feel free to share your local Packer bar with others by adding it to our directory.</p>
+</div>
 
 <div class="container">
     <?php if ($r) { ?>
