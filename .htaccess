@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule /?\.gitignore$ - [F,L]
+    RewriteRule /?\.htaccess$ - [F,L]
+    RewriteRule /?composer.*$ - [F,L]
+    RewriteRule /?Gruntfile.js$ - [F,L]
+    RewriteRule /?package\.json$ - [F,L]
+    RewriteRule /?node_modules - [F,L]
+    RewriteRule /?vendor - [F,L]
+</IfModule>

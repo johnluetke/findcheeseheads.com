@@ -1,6 +1,9 @@
 config.php
 node_modules/
 vendor/
+VERSION
+
+.revision
 
 **/*.min.css
 **/*.swp
