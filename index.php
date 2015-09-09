@@ -6,7 +6,7 @@
             <h1 class="text-nowrap">Find Cheeseheads<span class="hidden-sm hidden-xs"> Near You</span></h1>
             <form id="search" action="search.php" method="get">
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control input-lg" name="q" placeholder="Search by city or country" value="<?php echo $_GET['q']; ?>" />
+                    <input type="text" class="form-control input-lg" name="q" placeholder="Search by ZIP code, city or country" value="<?php echo $_GET['q']; ?>" />
                     <i class="glyphicon glyphicon-search form-control-feedback"></i>
                 </div>
             </form>
