@@ -3,7 +3,7 @@ include("views/header.twig");
 include("views/navbar.twig");
 
 if (isset($_GET['q'])) {
-    $q = filter_input(INPUT_GET, "q", FILTER_SANITIZE_ENCODED);
+    $q = filter_input(INPUT_GET, "q", FILTER_SANITIZE_STRING);
 
     $db = new PDO(sprintf("mysql:host=%s;dbname=%s", DATABASE_HOST, DATABASE_NAME), DATABASE_USER, DATABASE_PASS);
     $r = $db->query(sprintf("SELECT * FROM Place WHERE name LIKE '%s' OR address LIKE '%s' AND pending = 0;", "%".$q."%", "%".$q."%"));

@@ -5,7 +5,7 @@ include("views/navbar.twig");
 if (isset($_POST)) {
     $data = array();
     foreach ($_POST as $k=>$v) {
-        $v = filter_var($v, FILTER_SANITIZE_ENCODED);
+        $v = filter_var($v, FILTER_SANITIZE_STRING);
         $data[$k] = $v;
     }
 
