@@ -26,7 +26,7 @@ module.exports = function(grunt) {
                         cwd: 'vendor/twbs/bootstrap/'
                     }
                 },
-                command: "npm install"
+                command: "npm update --verbose"
             }
         },
         run_grunt: {
