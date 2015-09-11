@@ -1,8 +1,8 @@
 config.php
 node_modules/
 vendor/
-VERSION
 
+.branch
 .revision
 
 **/*.min.css
