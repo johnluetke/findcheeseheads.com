@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2d2cae0dc22c611917b3d04a40c95a6b",
+    "hash": "1086db3f38851d846f8906f5577f30df",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -2303,20 +2303,20 @@
         },
         {
             "name": "zendframework/zend-mail",
-            "version": "2.5.1",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-mail.git",
-                "reference": "684ca1af4b3ae75be52dff4857d98366c1293e0b"
+                "reference": "68b1357c6389d476d80c050a75bf3091e873202c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-mail/zipball/684ca1af4b3ae75be52dff4857d98366c1293e0b",
-                "reference": "684ca1af4b3ae75be52dff4857d98366c1293e0b",
+                "url": "https://api.github.com/repos/zendframework/zend-mail/zipball/68b1357c6389d476d80c050a75bf3091e873202c",
+                "reference": "68b1357c6389d476d80c050a75bf3091e873202c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.23",
+                "php": ">=5.5",
                 "zendframework/zend-crypt": "~2.5",
                 "zendframework/zend-loader": "~2.5",
                 "zendframework/zend-mime": "~2.5",
@@ -2354,7 +2354,7 @@
                 "mail",
                 "zf2"
             ],
-            "time": "2015-06-03 15:32:02"
+            "time": "2015-09-10 18:21:00"
         },
         {
             "name": "zendframework/zend-math",

@@ -1,5 +1,10 @@
 {
     "require": {
         "zippopotamus/zippopotamus" : "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "FindCheeseheads\\": "src/php/FindCheeseheads"
+        }
     }
 }
