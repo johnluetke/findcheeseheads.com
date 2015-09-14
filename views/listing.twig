@@ -1,11 +1,9 @@
     <div class="listing container-fluid">
-        <!--
         <div class="vote">
-            <div class="up glyphicon glyphicon-menu-up"></div>
-            <div class="score text-center">1</div>
-            <div class="down glyphicon glyphicon-menu-down"></div>
+            <a class="up voted"></a>
+            <span class="score">0</span>
+            <a class="down voted"></a>
         </div>
-        // -->
         <div class="info">
             <h2><?php echo $row['name'];?></h2>
             <address><?php echo str_replace("\n", "<br/>", urldecode($row['address']));?></address>

@@ -16,12 +16,17 @@ textarea {
 
 #add-place #review-text {
     float: right;
-    width: 50%;
+    max-width: 50%;
 }
 
 #add-place #map {
     width: 100%;
     height: 150px;
+}
+
+#add-place .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .navbar {
@@ -102,6 +107,35 @@ textarea {
 .listing .vote {
     vertical-align: middle;
     padding-right: 15px;
+}
+
+.listing .vote a {
+    background-image: url('http://janosgyerik.github.io/jquery-upvote/lib/images/sprites-stackoverflow.png?v=1');
+    background-repeat: no-repeat;
+    display: block;
+    width: 41px;
+    height: 25px;
+}
+
+.listing .vote .score {
+    display: block;
+    text-align: center;
+}
+
+.listing .vote .up {
+    background-position: 0px -265px;
+}
+
+.listing .vote .up.voted {
+    background-position: 0px -230px;
+}
+
+.listing .vote .down {
+    background-position: 0px -300px;
+}
+
+.listing .vote .down.voted {
+    background-position: 0px -330px;
 }
 
 .listing .actions {
