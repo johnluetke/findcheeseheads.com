@@ -4,6 +4,7 @@ require_once("vendor/autoload.php");
 
 use Silex\Application;
 use FindCheeseheads\App;
+use FindCheeseheads\Controllers\AddController;
 use FindCheeseheads\Controllers\BrowseController;
 use FindCheeseheads\Controllers\SearchController;
 
@@ -22,6 +23,7 @@ $app->get("/", function () use ($app, $fc) {
     ));
 });
 
+$app->mount("/add", new AddController());
 $app->mount("/browse", new BrowseController());
 $app->mount("/search", new SearchController());
 
