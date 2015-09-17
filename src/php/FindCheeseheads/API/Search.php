@@ -27,6 +27,14 @@ class Search {
         return $data;
     }
 
+    public static function getCountryFromIP() {
+        $http = new Client();
+        $http->setUri("http://www.telize.com/geoip/" . $_SERVER['REMOTE_ADDR']);
+        $response = $http->send();
+        $json     = Json::decode($response->getBody());
+        return      $json->country_code;
+    }
+
     public static function zipCodeSearch($country, $zip_code, $depth = 0) {
         $nearby_zip_codes = Zippopotamus::nearby($country, $zip_code);
         $zip_codes = array(); $cities = array();

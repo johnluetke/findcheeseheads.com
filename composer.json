@@ -1,5 +1,6 @@
 {
     "require": {
+        "silex/silex": "~1.2",
         "zippopotamus/zippopotamus" : "dev-master"
     },
     "autoload": {

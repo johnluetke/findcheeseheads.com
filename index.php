@@ -1,37 +1,27 @@
-<?php include("views/header.twig"); ?>
-
-<div class="cover">
-    <div class="jumbotron vertical-center">
-        <div class="container">
-            <h1 class="text-nowrap">Find Cheeseheads<span class="hidden-sm hidden-xs"> Near You</span></h1>
-            <form id="search" action="search.php" method="get">
-                <div class="form-group has-feedback">
-                    <input type="text" class="form-control input-lg" name="q" placeholder="Search by ZIP code, city or country" value="<?php echo $_GET['q']; ?>" />
-                    <i class="glyphicon glyphicon-search form-control-feedback"></i>
-                </div>
-            </form>
-            <p class="lead text-center">Not sure which local watering holes will welcome you on gameday? Find out above.</p>
-        </div>
-    </div>
-</div>
-
 <?php
-    $branch = file(".branch")[0];
-    $rev = file(".revision")[0];
-    $version = substr($rev, 0, 8) . "-" . $branch;
-?>
+require_once("config.php");
+require_once("vendor/autoload.php");
 
-<footer class="sticky-footer">
-    <div class="container small">
-        <p class="pull-left">&copy; 2015 FindCheeseheads.com</p>
-        <p class="pull-right">A product of <a href="http://www.reddit.com/r/GreenBayPackers" target="_blank">/r/GreenBayPackers</a> and <a href="http://www.reddit.com/r/FindCheeseheads" target="_blank">/r/FindCheeseheads</a></p>
-        <p class="pull-left" style="clear: left;"><?php echo $version;?></p>
-        <p class="pull-right" style="clear: right;">Image Credit AP/Mike Roemer</p>
-    </div>
-</footer>
+use Silex\Application;
+use FindCheeseheads\App;
+use FindCheeseheads\Controllers\SearchController;
 
-<script>
-$(document).ready(function() {
-    $(".cover .jumbotron h1").fitText(1.2);
+$app = new Application();
+$app['debug'] = true;
+$app->register(new Silex\Provider\ServiceControllerServiceProvider());
+$app->register(new \Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => "./views"
+));
+
+$fc = new App();
+
+$app->get("/", function () use ($app, $fc) {
+    return $app['twig']->render("landing_page.twig", array(
+        "fc" => $fc
+    ));
 });
-</script>
+
+$app->mount("/search", new SearchController());
+
+$app->run();
+?>
