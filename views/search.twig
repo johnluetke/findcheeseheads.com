@@ -15,7 +15,7 @@
             <div class="col-sm-3">
                 <select class="form-control" name="c">
                     {% for code, name in countries %}
-                        <option value="{{ code }}">{{ name }}</option>
+                        <option value="{{ code }}"{{ code == country ? "selected" : ""}}>{{ name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -24,9 +24,11 @@
             </div>
          </div>
     </form>
-    {% if cities is defined and cities.length > 1 %}
+    {% if cities is defined and 
+          cities is not null and
+          cities|length > 1 %}
     <div class="container">
-        <p>Results include venues in <?php echo implode_list(", ", $cities);?>.</p>
+        <p>Results include venues in {{ cities|join(', ') }}.</p>
     </div>
     {% endif %}
 </div>
@@ -36,7 +38,7 @@
     <h2>Search for a venue above.</h2>
     {% elseif criteria is defined and
               results is defined and
-              results is not empty %}
+              results is empty %}
     <h2>No bars were found :-(</h2>
     <div class="center-block text-center">
         <a href="/add.php">
@@ -44,7 +46,7 @@
         </a>
     </div>
     {% else %}
-    {% for result in results %}
+    {% for venue in results %}
         {% include "listing.twig" %}
     {% endfor %}
     {% endif %}

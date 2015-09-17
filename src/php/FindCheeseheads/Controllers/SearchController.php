@@ -3,6 +3,7 @@ namespace FindCheeseheads\Controllers;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 use FindCheeseheads\API\Search;
 
@@ -22,7 +23,18 @@ class SearchController implements ControllerProviderInterface {
         return $controllers;
     }
 
-    public function defaultAction() {
+    public function defaultAction(Request $request) {
+        if (sizeof($request->query->all()) > 0) {
+            $country = $request->query->has("c") ?
+                       $request->query->get("c") :
+                       Search::getCountryFromIP();
+
+            $criteria = $request->query->has("q") ?
+                        $request->query->get("q") :
+                        "";
+
+            return $this->app->redirect(sprintf("/search/%s/%s", $country, $criteria));
+        }
         // TODO: Redirect is query vars present
         return $this->app['twig']->render("search.twig", array(
             "criteria" => "",
@@ -56,6 +68,7 @@ class SearchController implements ControllerProviderInterface {
 
         return $this->app['twig']->render("search.twig", array(
             "cities" => $cities,
+            "country" => Search::getCountryFromIP(),
             "countries" => Search::getCountries(),
             "criteria" => $criteria,
             "results" => $results
