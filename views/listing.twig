@@ -7,8 +7,8 @@
         </div>
         // -->
         <div class="info">
-            <h2><?php echo $row['name'];?></h2>
-            <address><?php echo str_replace("\n", "<br/>", urldecode($row['address']));?></address>
+            <h2>{{ venue.name }}</h2>
+            <address>{{ venue.address|nl2br }}</address>
             <ul class="actions small">
                 <li class="edit"><a>Edit</a></li>
                 <li class="report"><a>Report Issue</a></li>
