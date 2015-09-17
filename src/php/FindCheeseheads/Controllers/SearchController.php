@@ -35,9 +35,10 @@ class SearchController implements ControllerProviderInterface {
 
             return $this->app->redirect(sprintf("/search/%s/%s", $country, $criteria));
         }
-        // TODO: Redirect is query vars present
+
         return $this->app['twig']->render("search.twig", array(
             "criteria" => "",
+            "country" => Search::getCountryFromIP(),
             "countries" => Search::getCountries()
         ));
     }
@@ -68,7 +69,7 @@ class SearchController implements ControllerProviderInterface {
 
         return $this->app['twig']->render("search.twig", array(
             "cities" => $cities,
-            "country" => Search::getCountryFromIP(),
+            "country" => isset($country) ? $country : Search::getCountryFromIP(),
             "countries" => Search::getCountries(),
             "criteria" => $criteria,
             "results" => $results
