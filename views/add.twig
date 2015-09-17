@@ -8,9 +8,9 @@
 </div>
 
 <div class="container">
-    <?php if ($r) { ?>
-    <div class="alert alert-success" role="alert">Thanks! Your submission will be reviewed by our staff before being published.</div>
-    <?php } ?>
+    {% if app.request.request.has("msg") is defined %}
+    <div class="alert alert-success" role="alert">{{ app.request.request.get("msg") }}</div>
+    {% endif %}
     <form id="add-place" method="post" class="form-horizontal" autocomplete="off">
         <div class="form-group">
             <div class="col-sm-2">
