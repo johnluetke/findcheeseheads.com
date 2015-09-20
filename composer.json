@@ -5,7 +5,7 @@
     },
     "autoload": {
         "psr-4": {
-            "FindCheeseheads\\": "src/php/FindCheeseheads"
+            "FindCheeseheads\\": "src/php"
         }
     }
 }
