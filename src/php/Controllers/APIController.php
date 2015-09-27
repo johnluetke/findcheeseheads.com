@@ -9,20 +9,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 use FindCheeseheads\Controllers\VoteAPIController;
 
-use PDO;
-
 class APIController implements ControllerProviderInterface {
 
+    private $app;
+
     public function connect(Application $app) {
+        $this->app = $app;
         $controllers = $app['controllers_factory'];
         $controllers->get("/", array($this, "defaultAction"));
 
-        $controllers->mount("/vote", new VoteAPIController());
+        $controllers->mount("/vote", new VoteAPIController($this));
 
         // This *should* apply to all /api/ requests
         $controllers->before(array($this, "authenticate"));
 
         return $controllers;
+    }
+
+    public function abort($status) {
+        return $this->app->abort($status);
     }
 
     public static function authenticate(Request $request) {
@@ -39,7 +44,7 @@ class APIController implements ControllerProviderInterface {
     }
 
     public function defaultAction() {
-        return 403;
+        return $this->app->abort(403);
     }
 }
 ?>
