@@ -24,6 +24,11 @@ textarea {
     height: 150px;
 }
 
+#add-place .form-group {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
 .navbar {
     margin-bottom: 0px;
 }
