@@ -29,10 +29,10 @@ class Search {
 
     public static function getCountryFromIP() {
         $http = new Client();
-        $http->setUri("http://www.telize.com/geoip/" . $_SERVER['REMOTE_ADDR']);
+        $http->setUri("http://ipinfo.io/" . $_SERVER['REMOTE_ADDR'] . "/json");
         $response = $http->send();
         $json     = Json::decode($response->getBody());
-        return      $json->country_code;
+        return      $json->country;
     }
 
     public static function zipCodeSearch($country, $zip_code, $depth = 0) {
