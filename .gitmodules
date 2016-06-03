@@ -1,0 +1,3 @@
+[submodule "lib/jquery-upvote"]
+	path = lib/jquery-upvote
+	url = git@github.com:janosgyerik/jquery-upvote.git
