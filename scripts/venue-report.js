@@ -3,7 +3,7 @@ $(function() {
         venue = $(this).data('venue-id');
         report_div = "div.report[data-venue-id='" + venue + "']";
         $(report_div).find("select[name='report_reason']").on('change', function() {
-               if ($(this).val() == "other") {
+               if ($(this).val() == "other_reason") {
                     $(report_div).find("input[name='other']").removeClass('hidden');
                }
                else {
