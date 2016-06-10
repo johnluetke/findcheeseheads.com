@@ -18,6 +18,7 @@ class APIController implements ControllerProviderInterface {
         $controllers = $app['controllers_factory'];
         $controllers->get("/", array($this, "defaultAction"));
 
+        $controllers->mount("/venue", new VenueAPIController($this));
         $controllers->mount("/vote", new VoteAPIController($this));
 
         // This *should* apply to all /api/ requests
@@ -35,7 +36,8 @@ class APIController implements ControllerProviderInterface {
 
         }
         else if ($request->server->has("REMOTE_ADDR") &&
-                 $request->server->get("REMOTE_ADDR") == "50.135.250.160") {
+                 $request->server->get("REMOTE_ADDR") == "50.135.250.160" ||
+                 $request->server->get("REMOTE_ADDR") == "12.144.134.6") {
 
         }
         else {

@@ -10,8 +10,25 @@
             <h2>{{ venue.name }}</h2>
             <address>{{ venue.address|nl2br }}</address>
             <ul class="actions small">
-                <li class="edit"><a>Edit</a></li>
-                <li class="report"><a>Report Issue</a></li>
+                <li class="report"><a href="#" data-venue-id="{{ venue.id }}">Report Issue</a></li>
             </ul>
+            <div class="action report hidden" data-venue-id="{{ venue.id }}">
+                <form name="venue_report_{{ venue.id }}" class="form-horizontal">
+                    <input type="hidden" name="venue_id" value="{{ venue.id }}" />
+                    <div class="form-group">
+                        <label for="report_reason"/>This venue is</label>
+                        <select name="report_reason" class="form-control">
+                            <option value="closed">permanently closed</option>
+                            <option value="not_packer_bar">not Cheesehead friendly</option>
+                            <option value="other_reason">(other reason)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-md hidden" name="other" placeholder="enter other reason" />
+                    </div>
+                    <input type="submit" class="btn" value="Send Report" />
+                </form>
+            </div>
+            <div class="action message hidden" data-venue-id="{{ venue.id }}"></div>
         </div>
     </div>
