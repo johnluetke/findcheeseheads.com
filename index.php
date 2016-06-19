@@ -13,15 +13,13 @@ $app = new Application();
 $app['debug'] = true;
 $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new \Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => "./views"
+    'twig.path' => "./src/templates"
 ));
 
 $fc = new App();
 
 $app->get("/", function () use ($app, $fc) {
-    return $app['twig']->render("landing_page.twig", array(
-        "fc" => $fc
-    ));
+    return $app['twig']->render("index.template.html");
 });
 
 $app->mount("/add", new AddController());
