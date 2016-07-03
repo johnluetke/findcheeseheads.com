@@ -1,4 +1,4 @@
-angular.module("FindCheeseheadsApp").controller("landingPage", [
+angular.module("FindCheeseheadsApp").controller("LandingPageController", [
     "$scope",
     "$rootScope",
     "$http",

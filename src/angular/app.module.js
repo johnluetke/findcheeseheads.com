@@ -9,11 +9,11 @@ angular
             $routeProvider
                 .when("/search/:country?/:criteria?", {
                     templateUrl: "/src/templates/search.template.html",
-                    controller: "searchPage"
+                    controller: "SearchPageController"
                 })
                 .otherwise({
                     templateUrl: "/src/templates/landing-page.template.html",
-                    controller: "landingPage"
+                    controller: "LandingPageController"
                 });
         }]
     )
