@@ -12,7 +12,8 @@ angular.module("FindCheeseheadsApp").controller("landingPage", [
             e.preventDefault();
             self.criteria = $scope.criteria;
             self.country = $scope.country;
-            window.location = "#!/search/" + self.country + "/" + self.criteria;
+            window.location = "#!/search/" + self.country.code + "/" + self.criteria;
+            $rootScope.hideNavbar = false;
         }
 
         $http.get("/api/country").then(function(response) {

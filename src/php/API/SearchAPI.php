@@ -6,7 +6,7 @@ use Zend\Http\Headers;
 use Zend\Json\Json;
 use Zippopotamus\Service\Zippopotamus;
 
-class Search {
+class SearchAPI {
 
     public static function getCountries() {
         $http = new Client();
@@ -21,9 +21,11 @@ class Search {
         $data     = array();
 
         foreach ($json as $country) {
-            $data[$country->alpha2Code] = $country->name;
+            $data[] = array(
+                "code" => strtolower($country->alpha2Code),
+                "name" => $country->name
+            );
         }
-
         return $data;
     }
 
@@ -32,7 +34,9 @@ class Search {
         $http->setUri("http://ipinfo.io/" . $_SERVER['REMOTE_ADDR'] . "/json");
         $response = $http->send();
         $json     = Json::decode($response->getBody());
-        return      $json->country;
+        return      array(
+            "code" => strtolower($json->country)
+        );
     }
 
     public static function zipCodeSearch($country, $zip_code, $depth = 0) {

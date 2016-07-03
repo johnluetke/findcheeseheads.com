@@ -22,6 +22,8 @@ class VenueAPIController extends ControllerCollection {
         $this->vote_api = new VoteAPI();
 
         $this->get("/", array($this, "defaultAction"));
+        $this->get("/search/{criteria}", array($this, "searchVenues"))
+            ->assert("criteria", ".+");
         $this->get("/{venue_id}/", array($this, "getVenue"));
 
         $this->post("/{venue_id}/report", array($this, "reportVenue"));
@@ -74,6 +76,12 @@ class VenueAPIController extends ControllerCollection {
                 return new JsonResponse(array("message" => "Your report has been submitted."));
             }
         }
+    }
+
+    public function searchVenues($criteria, Request $request) {
+        list($country, $criteria) = explode("/", $criteria);
+        return new JsonResponse($this->api->searchVenues($country, $criteria));
+
     }
 
     private function generateModel($venue, $vote) {
