@@ -19,7 +19,9 @@ $app->register(new \Silex\Provider\TwigServiceProvider(), array(
 $fc = new App();
 
 $app->get("/", function () use ($app, $fc) {
-    return $app['twig']->render("index.template.html");
+    return $app['twig']->render("index.template.html", array(
+        "version" => $fc->getVersion()
+    ));
 });
 
 $app->mount("/add", new AddController());
