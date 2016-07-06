@@ -9,6 +9,18 @@ use PDO;
 
 class VenueAPI extends API {
 
+    public function createVenue($name, $address, $location) {
+        $stmt = $this->db()->prepare("INSERT INTO Place (`name`, `address`, `lat`, `lng`, `pending`) VALUES (:name, :address, :lat, :lng, 1);");
+        $stmt->bindParam("name", $name);
+        $stmt->bindParam("address", $address);
+        $stmt->bindParam("lat", $location['lat']);
+        $stmt->bindParam("lng", $location['lng']);
+
+        $stmt->execute();
+
+        return $stmt->errorCode() == 0;
+    }
+
     public function createVenueReport($venue_id, $reason, $other) {
         error_log(print_r($this, true));
         $stmt = $this->db()->prepare("INSERT INTO Report (place_id, reason, other) VALUES (:place_id, :reason, :other)");

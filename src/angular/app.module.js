@@ -11,6 +11,10 @@ angular
                     templateUrl: "/src/templates/search.template.html",
                     controller: "SearchPageController"
                 })
+                .when("/add", {
+                    templateUrl: "/src/templates/add.template.html",
+                    controller: "AddPageController"
+                })
                 .otherwise({
                     templateUrl: "/src/templates/landing-page.template.html",
                     controller: "LandingPageController"
