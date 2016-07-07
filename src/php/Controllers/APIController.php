@@ -6,7 +6,9 @@ use Silex\ControllerProviderInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
+use FindCheeseheads\API\SearchAPI;
 use FindCheeseheads\Controllers\VoteAPIController;
 
 class APIController implements ControllerProviderInterface {
@@ -17,6 +19,8 @@ class APIController implements ControllerProviderInterface {
         $this->app = $app;
         $controllers = $app['controllers_factory'];
         $controllers->get("/", array($this, "defaultAction"));
+        $controllers->get("/country", array($this, "getCountryFromIP"));
+        $controllers->get("/countries", array($this, "getCountryList"));
 
         $controllers->mount("/venue", new VenueAPIController($this));
         $controllers->mount("/vote", new VoteAPIController($this));
@@ -47,6 +51,18 @@ class APIController implements ControllerProviderInterface {
 
     public function defaultAction() {
         return $this->app->abort(403);
+    }
+
+    public function getCountryFromIP() {
+        return new JsonResponse(
+            array("country" => SearchAPI::getCountryFromIP())
+        );
+    }
+
+    public function getCountryList() {
+        return new JsonResponse(
+            array("countries" => SearchAPI::getCountries())
+        );
     }
 }
 ?>

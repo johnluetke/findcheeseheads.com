@@ -1,0 +1,38 @@
+<div class="container">
+    <h2 class="page-header">Add a Venue</h2>
+</div>
+
+<div class="container">
+    <p><strong>Find Cheeseheads</strong> is a community-driven resource. As such, we rely on the community to share Packer bars and gathering spots throughout the world.</p>
+    <p>All venues found here have been submitted <strong>by Cheeseheads, for Cheeseheads</strong>. Please feel free to share your local Packer bar with others by adding it to our directory.</p>
+</div>
+
+<div class="container">
+    <div class="alert" role="alert" ng-bind="data.message" ng-show="data.message.length > 0" ng-class="data.submission ? 'alert-success' : 'alert-danger'"></div>
+
+    <form id="add-place" method="post" class="form-horizontal" autocomplete="off" ng-submit="submitVenue($event)">
+        <div class="form-group">
+            <label for="place-name" class="control-label">Venue Name</label>
+            <input type="text" id="place-name" name="name" class="form-control" placeholder="Bart's Bar and Grill" required minlength="3" ng-model="data.venue.name" />
+        </div>
+    
+        <div class="form-group">
+            <label for="place-address" class="control-label">Address</label>
+            <textarea class="form-control" name="address" id="place-address" placeholder="1265 Lombardi Ave
+Green Bay, WI 54304" rows="3" required format-address ng-model="data.venue.address"></textarea>
+            <input type="hidden" name="lat" ng-model="data.venue.lat"/>
+            <input type="hidden" name="lng" ng.model="data.venue.lng"/>
+        </div>
+    
+        <div class="form-group">
+            <div id="map"></div>
+        </div>
+    
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit for Review" />
+            <div id="review-text">
+            <em class="small">Our staff will approve your submission after review. Reviews may take up to two days.</em>
+            </div>
+        </div>
+    </form>
+</div>
