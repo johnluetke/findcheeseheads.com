@@ -1,0 +1,78 @@
+<div class="container">
+    <h2 class="page-header">Search</h2>
+</div>
+
+<div class="container">
+    <form id="search" action="/search" method="get" class="form-horizontal" ng-submit="search($event)">
+        <div class="form-group has-feedback">
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="q" placeholder="Search by name or address" ng-model="data.search.criteria" />
+                <i class="glyphicon glyphicon-search form-control-feedback"></i>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control" name="c" ng-model="data.search.country" ng-options="country.name for country in data.countries track by country.code">
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <input type="submit" class="btn btn-primary form-control" value="Search"/a>
+            </div>
+        </div>
+    </form>
+    
+    <div class="container" ng-if="search.results.cities">
+        <p>Results include venues in <span ng-bind="search.results.cities" />.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="listing container-fluid" ng-repeat="venue in data.search.results.venues" ng-if="data.search.results.venues.length > 0 && !isSearching && hasSearchCriteria">
+        <!--
+        <div class="vote">
+            <div class="up glyphicon glyphicon-menu-up"></div>
+            <div class="score text-center">1</div>
+            <div class="down glyphicon glyphicon-menu-down"></div>
+        </div>
+        // -->
+        <div class="info">
+            <h2 ng-bind="venue.name"></h2>
+            <address ng-bind-html="venue.address|nl2br"></address>
+            <ul class="actions small">
+                <li class="report"><a href="#" ng-click="reportVenue($event, venue.id);">Report Issue</a></li>
+            </ul>
+            <div class="action report ng-hidden" ng-show="report.id == venue.id">
+                <form name="venue_report_{{ venue.id }}" class="form-horizontal" ng-submit="sendVenueReport()">
+                    <div class="form-group">
+                        <label for="report_reason"/>This venue is</label>
+                        <select name="report_reason" class="form-control" ng-model="report.reason">
+                            <option value="closed">permanently closed</option>
+                            <option value="not_packer_bar">not Cheesehead friendly</option>
+                            <option value="other_reason">(other reason)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-md ng-hidden" name="other" placeholder="enter other reason" ng-show="report.reason == 'other_reason'" ng-model="report.other" />
+                    </div>
+                    <input type="submit" class="btn" value="Send Report" />
+                </form>
+            </div>
+            <div class="action message ng-hidden" ng-show="report.submitted" ng-bind=""></div>
+        </div>
+    </div>
+    
+    <div ng-show="hasSearchCriteria && !isSearching && data.search.results.venues.length == 0">
+        <h2>No bars were found :-(</h2>
+        <div class="center-block text-center">
+            <a href="/add">
+                <button type="button" class="btn btn-default">Why not add one?</button>
+            </a>
+        </div>
+    </div>
+    
+    <div class="loading" ng-show="isSearching">
+        <img src="/images/loading.gif" />
+    </div>
+    
+    <div ng-hide="hasSearchCriteria">
+        <h2>Search for a venue above.</h2>
+    </div>
+</div>

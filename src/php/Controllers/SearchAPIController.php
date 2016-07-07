@@ -9,7 +9,7 @@ use FindCheeseheads\API\Search;
 
 use PDO;
 
-class SearchController implements ControllerProviderInterface {
+class SearchAPIController implements ControllerProviderInterface {
 
     private $app;
 
