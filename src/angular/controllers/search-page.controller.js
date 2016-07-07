@@ -12,6 +12,9 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
         $scope.data.search = {};
         $scope.data.report = {};
 
+        // Necessary jQuery for bootstrap
+        $(".navbar-collapse").collapse("hide");
+
         if ($rootScope.data.countryList == undefined) {
             $http.get("/api/countries").then(function(response) {
                 $rootScope.data.countryList = response.data.countries;
