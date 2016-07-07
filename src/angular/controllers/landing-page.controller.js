@@ -8,6 +8,8 @@ angular.module("FindCheeseheadsApp").controller("LandingPageController", [
         self.country = "";
         $rootScope.hideNavbar = true;
 
+        $(".cover .jumbotron h1").fitText(1.2);
+
         $scope.search = function(e) {
             e.preventDefault();
             self.criteria = $scope.criteria;
