@@ -17,7 +17,9 @@ angular.module("FindCheeseheadsApp").directive("formatAddress", [
                             coordinates = results[0].geometry.location;
 
                             parent.$scope.data.venue.lat = coordinates.lat();
-                            parent.$scope.data.venue.lng = coordinates.lng()
+                            parent.$scope.data.venue.lng = coordinates.lng();
+
+                            var marker;
 
                             if (marker == undefined) {
                                 marker = new google.maps.Marker({
