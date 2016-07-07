@@ -6,6 +6,7 @@ angular.module("FindCheeseheadsApp").directive("formatAddress", [
             link: function(scope, elem, attrs, ctrl) {
                 parent = this;
                 parent.$scope = scope;
+                var marker;
                 elem.bind("blur", function() {
                     console.log("blur");
                     inputAddress = ctrl.$viewValue;
@@ -18,8 +19,6 @@ angular.module("FindCheeseheadsApp").directive("formatAddress", [
 
                             parent.$scope.data.venue.lat = coordinates.lat();
                             parent.$scope.data.venue.lng = coordinates.lng();
-
-                            var marker;
 
                             if (marker == undefined) {
                                 marker = new google.maps.Marker({
