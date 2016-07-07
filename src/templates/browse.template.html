@@ -1,0 +1,43 @@
+<div class="container">
+    <h2 class="page-header">Browse</h2>
+</div>
+
+<div class="container">
+    <div class="listing container-fluid" ng-repeat="venue in data.venues" ng-if="data.venues.length > 0">
+        <!--
+        <div class="vote">
+            <div class="up glyphicon glyphicon-menu-up"></div>
+            <div class="score text-center">1</div>
+            <div class="down glyphicon glyphicon-menu-down"></div>
+        </div>
+        // -->
+        <div class="info">
+            <h2 ng-bind-html="venue.name"></h2>
+            <address ng-bind-html="venue.address|nl2br"></address>
+            <ul class="actions small">
+                <li class="report"><a href="#" ng-click="reportVenue($event, venue.id);">Report Issue</a></li>
+            </ul>
+            <div class="action report ng-hidden" ng-show="data.report.id == venue.id">
+                <form name="venue_report_{{ venue.id }}" class="form-horizontal" ng-submit="sendVenueReport()">
+                    <div class="form-group">
+                        <label for="report_reason"/>This venue is</label>
+                        <select name="report_reason" class="form-control" ng-model="report.reason">
+                            <option value="closed">permanently closed</option>
+                            <option value="not_packer_bar">not Cheesehead friendly</option>
+                            <option value="other_reason">(other reason)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-md ng-hidden" name="other" placeholder="enter other reason" ng-show="report.reason == 'other_reason'" ng-model="report.other" />
+                    </div>
+                    <input type="submit" class="btn" value="Send Report" />
+                </form>
+            </div>
+            <div class="action message ng-hidden" ng-show="report.submitted" ng-bind=""></div>
+        </div>
+    </div>
+    
+    <div class="loading" ng-show="data.venues.length == 0">
+        <img src="/images/loading.gif" />
+    </div>
+</div>

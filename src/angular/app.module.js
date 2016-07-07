@@ -1,6 +1,7 @@
 angular
     .module("FindCheeseheadsApp", [
-        "ngRoute"
+        "ngRoute",
+        "ngSanitize"
     ])
     .config(["$locationProvider", "$routeProvider",
         function config($locationProvider, $routeProvider) {
@@ -15,6 +16,11 @@ angular
                     templateUrl: "/src/templates/add.template.html",
                     controller: "AddPageController"
                 })
+                .when("/browse", {
+                    templateUrl: "/src/templates/browse.template.html",
+                    controller: "BrowsePageController"
+                })
+
                 .otherwise({
                     templateUrl: "/src/templates/landing-page.template.html",
                     controller: "LandingPageController"

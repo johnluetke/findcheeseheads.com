@@ -39,9 +39,21 @@ class VenueAPI extends API {
     }
 
     public function getVenues() {
-        $stmt = $this->db()->prepare("SELECT * FROM Place WHERE pending = 0 ORDER BY name ASC;");
+        $stmt = $this->db()->prepare("SELECT id, name, address, lat, lng FROM Place WHERE pending = 0 ORDER BY name ASC;");
         $stmt->execute();
-        $venues = $stmt->fetch();
+    
+        while ($row = $stmt->fetch()) {
+            $venues[] = array(
+                "id" => $row['id'],
+                "name" => $row['name'],
+                "address" => $row['address'],
+                "location" => array(
+                    "lat" => $row['lat'],
+                    "lng" => $row['lng']
+                )
+            );
+        }
+
         return $venues;
     }
 

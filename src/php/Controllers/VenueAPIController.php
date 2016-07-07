@@ -21,7 +21,7 @@ class VenueAPIController extends ControllerCollection {
         $this->api_controller = $controller;
         $this->vote_api = new VoteAPI();
 
-        $this->get("/", array($this, "defaultAction"));
+        $this->get("/", array($this, "getVenues"));
         $this->post("/add", array($this, "addVenue"));
         $this->get("/search/{criteria}", array($this, "searchVenues"))
             ->assert("criteria", ".+");
@@ -79,6 +79,10 @@ class VenueAPIController extends ControllerCollection {
             "pending" => $result['pending'],
             "score" => $score
         ));
+    }
+
+    public function getVenues() {
+        return new JsonResponse($this->api->getVenues());
     }
 
     public function reportVenue($venue_id, Request $request) {
