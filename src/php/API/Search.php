@@ -27,6 +27,14 @@ class Search {
         return $data;
     }
 
+    public static function getCountryFromIP() {
+        $http = new Client();
+        $http->setUri("http://ipinfo.io/" . $_SERVER['REMOTE_ADDR'] . "/json");
+        $response = $http->send();
+        $json     = Json::decode($response->getBody());
+        return      $json->country;
+    }
+
     public static function zipCodeSearch($country, $zip_code, $depth = 0) {
         $nearby_zip_codes = Zippopotamus::nearby($country, $zip_code);
         $zip_codes = array(); $cities = array();

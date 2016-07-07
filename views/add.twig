@@ -1,20 +1,5 @@
-<?php
-include("views/header.twig");
-include("views/navbar.twig");
-
-if (isset($_POST)) {
-    $data = array();
-    foreach ($_POST as $k=>$v) {
-        $v = filter_var($v, FILTER_SANITIZE_STRING);
-        $data[$k] = $v;
-    }
-
-    $db = new PDO(sprintf("mysql:host=%s;dbname=%s", DATABASE_HOST, DATABASE_NAME), DATABASE_USER_W, DATABASE_PASS);
-
-    $stmt = $db->prepare("INSERT INTO Place (name, address, lat, lng) VALUES(?, ?, ? ,?);");
-    $r = $stmt->execute(array($data['name'], $data['address'], $data['lat'], $data['lng']));
-}
-?>
+{% include "header.twig" %}
+{% include "navbar.twig" %}
 
 <div class="container">
     <h2 class="page-header">Add a Venue</h2>
@@ -23,45 +8,31 @@ if (isset($_POST)) {
 </div>
 
 <div class="container">
-    <?php if ($r) { ?>
-    <div class="alert alert-success" role="alert">Thanks! Your submission will be reviewed by our staff before being published.</div>
-    <?php } ?>
+    {% if app.request.request.has("msg") %}
+    <div class="alert alert-success" role="alert">{{ app.request.request.get("msg") }}</div>
+    {% endif %}
     <form id="add-place" method="post" class="form-horizontal" autocomplete="off">
         <div class="form-group">
-            <div class="col-sm-2">
-                <label for="place-name" class="control-label">Venue Name</label>
-            </div>
-            <div class="col-sm-8">
-                <input type="text" id="place-name" name="name" class="form-control" placeholder="Bart's Bar and Grill" required/>
-            </div>
+            <label for="place-name" class="control-label">Venue Name</label>
+            <input type="text" id="place-name" name="name" class="form-control" placeholder="Bart's Bar and Grill" required/>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-2">
-                <label for="place-address" class="control-label">Address</label>
-            </div>
-            <div class="col-sm-8">
-                <textarea class="form-control" name="address" id="place-address" placeholder="1265 Lombardi Ave
+            <label for="place-address" class="control-label">Address</label>
+            <textarea class="form-control" name="address" id="place-address" placeholder="1265 Lombardi Ave
 Green Bay, WI 54304" rows="3" required></textarea>
-                <input type="hidden" name="lat" />
-                <input type="hidden" name="lng" />
-            </div>
+            <input type="hidden" name="lat" />
+            <input type="hidden" name="lng" />
         </div>
 
         <div class="form-group">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <div id="map"></div>
-            </div>
+            <div id="map"></div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <input type="submit" class="btn btn-primary" value="Submit for Review" />
-                <div id="review-text">
-                    <em class="small">Our staff will approve your submission after review. Reviews may take up to two days.</em>
-                </div>
+            <input type="submit" class="btn btn-primary" value="Submit for Review" />
+            <div id="review-text">
+                <em class="small">Our staff will approve your submission after review. Reviews may take up to two days.</em>
             </div>
         </div>
     </form>

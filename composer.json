@@ -1,10 +1,11 @@
 {
     "require": {
+        "silex/silex": "~1.2",
         "zippopotamus/zippopotamus" : "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "FindCheeseheads\\": "src/php/FindCheeseheads"
+            "FindCheeseheads\\": "src/php"
         }
     }
 }

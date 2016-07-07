@@ -25,8 +25,8 @@ textarea {
 }
 
 #add-place .form-group {
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
 }
 
 .navbar {
@@ -98,6 +98,7 @@ textarea {
 .listing {
     display: table;
     margin-left: 0px;
+    width: 100%;
 }
 
 .listing > * {
@@ -149,4 +150,15 @@ textarea {
 
 .listing .actions a {
     cursor: pointer;
+}
+
+.listing .action .form-horizontal .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.listing .action select[name='report_reason'].form-control {
+    display: inline-block;
+    width: auto;
+    margin-left: 0px;
 }
