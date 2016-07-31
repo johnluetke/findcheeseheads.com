@@ -27,6 +27,7 @@ class VenueAPIController extends ControllerCollection {
             ->assert("criteria", ".+");
         $this->get("/{venue_id}/", array($this, "getVenue"));
 
+        $this->get("/{venue_id}/report", array($this, "getVenueReports"));
         $this->post("/{venue_id}/report", array($this, "reportVenue"));
 
         // TODO: Does this need to be set explicitly?
@@ -83,6 +84,11 @@ class VenueAPIController extends ControllerCollection {
 
     public function getVenues() {
         return new JsonResponse($this->api->getVenues());
+    }
+
+    public function getVenueReports($venue_id, Request $request) {
+        $venue_id = filter_var($venue_id, FILTER_SANITIZE_NUMBER_INT);
+        return new JsonResponse($this->api->getVenueReports($venue_id));
     }
 
     public function reportVenue($venue_id, Request $request) {

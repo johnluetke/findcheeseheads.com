@@ -57,6 +57,20 @@ class VenueAPI extends API {
         return $venues;
     }
 
+    public function getVenueReports($venue_id) {
+        $stmt = $this->db()->prepare("SELECT COUNT(*) num, reason FROM Report WHERE place_id = :place_id GROUP BY reason");
+        $stmt->bindParam(":place_id", $venue_id);
+        $stmt->execute();
+
+        $reports = [];
+        while ($row = $stmt->fetch()) {
+            $reports[$row['reason']] = $row['num'];
+        }
+
+        return $reports;
+
+    }
+
     public function searchVenues($country, $criteria) {
         list($zips, $cities) = SearchAPI::zipCodeSearch($country, $criteria, 1);
 
