@@ -109,6 +109,21 @@ textarea {
     display: table-cell;
 }
 
+.listing .info h2 {
+    display: inline-block;
+}
+
+.listing .info h2 + span.glyphicon-exclamation-sign {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
+    top: -3px;
+    padding: 3px;
+}
+
 .listing .vote {
     vertical-align: middle;
     padding-right: 15px;

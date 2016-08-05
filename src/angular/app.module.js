@@ -1,7 +1,8 @@
 angular
     .module("FindCheeseheadsApp", [
         "ngRoute",
-        "ngSanitize"
+        "ngSanitize",
+        "ui.bootstrap"
     ])
     .config(["$locationProvider", "$routeProvider",
         function config($locationProvider, $routeProvider) {

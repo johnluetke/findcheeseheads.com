@@ -4,7 +4,8 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
     "$http",
     "$route",
     "$routeParams",
-    function ($scope, $rootScope, $http, $route, $routeParams) {
+    "$sce",
+    function ($scope, $rootScope, $http, $route, $routeParams, $sce) {
         self = this;
         self.isSearching = false;
 
@@ -62,11 +63,50 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
                 $scope.data.search.results.cities = response.data.cities;
                 $scope.data.search.results.venues = response.data.results;
 
+                angular.forEach($scope.data.search.results.venues, function(value, key) {
+                    venue = $scope.data.search.results.venues[key]
+                    $http.get("/api/venue/" + venue.id + "/report").then(function(reports) {
+                        console.log(reports);
+                        $scope.data.search.results.venues[key].report = {
+                            count: reports.data.count,
+                            types: reports.data.reports
+                        };
+                    });
+                });
+
                 $scope.isSearching = false;
                 $rootScope.$broadcast('venueSearch.hasResults', response.data);
                 $rootScope.$broadcast("venueSearch.endSearch", $scope.search);
             });
         };
+
+        $scope.tooltipHtml = $sce.trustAsHtml('foo');
+
+        // TODO: Can this be templated?
+        $scope.displayReports = function(venue_id) {
+            reports = undefined;
+            angular.forEach($scope.data.search.results.venues, function(value, key) {
+                if (value.id == venue_id)
+                    reports = value.report;
+                    return;
+            });
+            message = "There are " + reports.count + " open reports for this venue.<br/>";
+            for (type in reports.types) {
+                if (reports.types.hasOwnProperty(type)) {
+                    message += "<br/>" + $scope.getFriendlyReportType(type) + ": " + reports.types[type]
+                }
+            }
+
+            return message;
+        }
+
+        $scope.getFriendlyReportType = function(type) {
+            switch (type) {
+                case "closed": return "Closed"; break;
+                case "not_packer_bar": return "Not a Packer Bar"; break;
+                default: return type;
+            }
+        }
 
         $scope.reportVenue = function(e, id) {
             e.preventDefault();

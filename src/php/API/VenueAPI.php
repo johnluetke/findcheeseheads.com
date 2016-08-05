@@ -63,11 +63,16 @@ class VenueAPI extends API {
         $stmt->execute();
 
         $reports = [];
+        $total = 0;
         while ($row = $stmt->fetch()) {
+            $total += intval($row['num']);
             $reports[$row['reason']] = $row['num'];
         }
 
-        return $reports;
+        return array(
+            "count" => $total,
+            "reports" => $reports
+        );
 
     }
 

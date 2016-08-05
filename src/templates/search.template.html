@@ -6,7 +6,7 @@
     <form id="search" action="/search" method="get" class="form-horizontal" ng-submit="search($event)">
         <div class="form-group has-feedback">
             <div class="col-sm-8">
-                <input type="text" class="form-control" name="q" placeholder="Search by name or address" ng-model="data.search.criteria" />
+                <input type="text" class="form-control" name="q" placeholder="Search by name, city, or postal code" ng-model="data.search.criteria" />
                 <i class="glyphicon glyphicon-search form-control-feedback"></i>
             </div>
             <div class="col-sm-3">
@@ -26,15 +26,9 @@
 
 <div class="container">
     <div class="listing container-fluid" ng-repeat="venue in data.search.results.venues" ng-if="data.search.results.venues.length > 0 && !isSearching && hasSearchCriteria">
-        <!--
-        <div class="vote">
-            <div class="up glyphicon glyphicon-menu-up"></div>
-            <div class="score text-center">1</div>
-            <div class="down glyphicon glyphicon-menu-down"></div>
-        </div>
-        // -->
         <div class="info">
-            <h2 ng-bind="venue.name"></h2>
+            <h2 ng-bind-html="venue.name"></h2>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" ng-if="venue.report.count > 0" uib-tooltip-html="displayReports(venue.id)" tooltip-placement="right"></span>
             <address ng-bind-html="venue.address|nl2br"></address>
             <ul class="actions small">
                 <li class="report"><a href="#" ng-click="reportVenue($event, venue.id);">Report Issue</a></li>
