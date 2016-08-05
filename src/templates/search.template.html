@@ -33,7 +33,7 @@
             <ul class="actions small">
                 <li class="report"><a href="#" ng-click="reportVenue($event, venue.id);">Report Issue</a></li>
             </ul>
-            <div class="action report ng-hidden" ng-show="report.id == venue.id">
+            <div class="action report ng-hidden" ng-show="data.report.id == venue.id">
                 <form name="venue_report_{{ venue.id }}" class="form-horizontal" ng-submit="sendVenueReport()">
                     <div class="form-group">
                         <label for="report_reason"/>This venue is</label>

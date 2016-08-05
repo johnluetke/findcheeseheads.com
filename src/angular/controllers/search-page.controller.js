@@ -66,7 +66,6 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
                 angular.forEach($scope.data.search.results.venues, function(value, key) {
                     venue = $scope.data.search.results.venues[key]
                     $http.get("/api/venue/" + venue.id + "/report").then(function(reports) {
-                        console.log(reports);
                         $scope.data.search.results.venues[key].report = {
                             count: reports.data.count,
                             types: reports.data.reports
@@ -102,8 +101,8 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
 
         $scope.getFriendlyReportType = function(type) {
             switch (type) {
-                case "closed": return "Closed"; break;
-                case "not_packer_bar": return "Not a Packer Bar"; break;
+                case "closed": return "Permanently Closed"; break;
+                case "not_packer_bar": return "Not Cheesehead Friendly"; break;
                 default: return type;
             }
         }
