@@ -99,10 +99,29 @@ class VenueAPI extends API {
 
         $results = $query->fetchAll();
 
+        $sw = json_decode("{\"lat\": -90, \"lng\": -180}");
+        $ne = json_decode("{\"lat\": 90, \"lng\": 180}");
+
+        foreach($results as $venue) {
+            if (floatval($venue['lat']) < $ne->lat) {
+                $ne->lat = $venue['lat'];
+            }
+            if (floatval($venue['lat']) > $sw->lat) {
+                $sw->lat = $venue['lat'];
+            }
+            if (floatval($venue['lng']) < $ne->lng) {
+                $ne->lng = $venue['lng'];
+            }
+            if (floatval($venue['lng']) > $sw->lng) {
+                $sw->lng = $venue['lng'];
+            }
+        }
+
         return array(
             "criteria" => $criteria,
             "country" => isset($country) ? $country : SearchAPI::getCountryFromIP(),
             "cities" => $cities,
+            "boundingbox" => array("ne" => $ne, "sw" => $sw),
             "results" => $results
         );
     }

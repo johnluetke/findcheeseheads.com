@@ -24,7 +24,8 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container search">
+    <div id="map"></div>
     <div class="listing container-fluid" ng-repeat="venue in data.search.results.venues" ng-if="data.search.results.venues.length > 0 && !isSearching && hasSearchCriteria">
         <div class="info">
             <h2 ng-bind-html="venue.name"></h2>

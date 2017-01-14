@@ -45,7 +45,7 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
 
             $scope.search.results = [];
             $scope.isSearching = true;
-            
+
             $rootScope.$broadcast("venueSearch.startSearch", $scope.data.search);
 
             country = $scope.data.search.country;
@@ -56,6 +56,9 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
             }
 
             $http.get("/api/venue/search/" + country.code + "/" + criteria).then(function(response) {
+                $scope.mapMarkers = [];
+                $scope.mapBounds = new google.maps.LatLngBounds();
+
                 $scope.data.search.criteria = response.data.criteria;
                 $scope.data.search.country.code = response.data.country;
 
@@ -65,6 +68,14 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
 
                 angular.forEach($scope.data.search.results.venues, function(value, key) {
                     venue = $scope.data.search.results.venues[key]
+
+                    $scope.mapMarkers.push(new google.maps.Marker({
+                        position: new google.maps.LatLng(parseFloat(venue.lat), parseFloat(venue.lng)),
+                        map: $scope.map
+                    }));
+
+                    $scope.mapBounds.extend($scope.mapMarkers[$scope.mapMarkers.length - 1].getPosition());
+
                     $http.get("/api/venue/" + venue.id + "/report").then(function(reports) {
                         $scope.data.search.results.venues[key].report = {
                             count: reports.data.count,
@@ -75,6 +86,15 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
 
                 $scope.isSearching = false;
                 $rootScope.$broadcast('venueSearch.hasResults', response.data);
+
+                if ($scope.mapMarkers.length > 0) {
+                    $scope.map.setZoom(getBoundsZoomLevel($scope.mapBounds, {
+                        height: $scope.map.getDiv().clientHeight,
+                        width: $scope.map.getDiv().clientWidth
+                    }));
+                    $scope.map.setCenter($scope.mapBounds.getCenter());
+                }
+
                 $rootScope.$broadcast("venueSearch.endSearch", $scope.search);
             });
         };
@@ -130,11 +150,52 @@ angular.module("FindCheeseheadsApp").controller("SearchPageController", [
             return false;
         }
 
+        $scope.map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: 41.030,
+                lng: -30.058
+            },
+            zoom: 2,
+                disableDefaultUI: true,
+                zoomControl: true
+            }
+        );
+
         if ($routeParams.country != undefined && $routeParams.criteria != undefined) {
             $scope.data.search.criteria = $routeParams.criteria;
             $scope.data.search.country = { code: $routeParams.country };
             $scope.hasSearchCriteria = true;
             $scope.search();
+        }
+
+        function getBoundsZoomLevel(bounds, mapDim) {
+            var WORLD_DIM = { height: 256, width: 256 };
+            var ZOOM_MAX = 21;
+
+            function latRad(lat) {
+                var sin = Math.sin(lat * Math.PI / 180);
+                var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+                return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+            }
+
+            function zoom(mapPx, worldPx, fraction) {
+                return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+            }
+
+            var ne = bounds.getNorthEast();
+            var sw = bounds.getSouthWest();
+
+            var latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI;
+
+            var lngDiff = ne.lng() - sw.lng();
+            var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
+
+            var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+            var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
+
+            zoom = Math.min(latZoom, lngZoom, ZOOM_MAX);
+            console.log(zoom);
+            return zoom;
         }
     }
 ]);
