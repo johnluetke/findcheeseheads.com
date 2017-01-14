@@ -2,6 +2,11 @@
     Options -MultiViews
 
     RewriteEngine On
+
+	# When behind an load balancer, if http was forwarded, use https instead
+	RewriteCond %{HTTP:X-Forwarded-Proto} =http
+    RewriteRule . https://%{HTTP:Host}%{REQUEST_URI} [L,R=permanent]
+
     RewriteRule /?\.gitignore$ - [F,L]
     RewriteRule /?\.htaccess$ - [F,L]
     RewriteRule /?composer.*$ - [F,L]
