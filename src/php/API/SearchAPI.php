@@ -31,7 +31,8 @@ class SearchAPI {
 
     public static function getCountryFromIP() {
         $http = new Client();
-        $http->setUri("http://ipinfo.io/" . $_SERVER['REMOTE_ADDR'] . "/json");
+        $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+        $http->setUri("http://ipinfo.io/" . $ip . "/json");
         $response = $http->send();
         $json     = Json::decode($response->getBody());
         return      array(

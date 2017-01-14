@@ -4,7 +4,9 @@
         "zippopotamus/zippopotamus" : "dev-master"
     },
     "autoload": {
-        "files": [ "src/php/functions.php" ],
+        "files": [ 
+            "src/php/functions.php"
+        ],
         "psr-4": {
             "FindCheeseheads\\": "src/php"
         }

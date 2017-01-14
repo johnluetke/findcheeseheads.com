@@ -19,6 +19,8 @@ class APIController implements ControllerProviderInterface {
         $this->app = $app;
         $controllers = $app['controllers_factory'];
         $controllers->get("/", array($this, "defaultAction"));
+        $controllers->match("/test", array($this, "test"));
+
         $controllers->get("/country", array($this, "getCountryFromIP"));
         $controllers->get("/countries", array($this, "getCountryList"));
 
@@ -35,9 +37,13 @@ class APIController implements ControllerProviderInterface {
         return $this->app->abort($status);
     }
 
+    public function test(Request $request) {
+        return new JsonResponse($request);
+    }
+
     public static function authenticate(Request $request) {
         if ($request->headers->has("X-API-Key")) {
-
+            // validate API key
         }
         else if ($request->server->has("REMOTE_ADDR") &&
                  $request->server->get("REMOTE_ADDR") == "50.135.250.160" ||
@@ -45,7 +51,7 @@ class APIController implements ControllerProviderInterface {
                  cidr_match($request->server->get("REMOTE_ADDR", ALLOWED_NETWORK))) {
         }
         else {
-            return  new Response($request->server->get("REMOTE_ADDR") . " Unauthorized", 401);
+            return  new Response("401 Unauthorized", 401);
         }
     }
 
@@ -63,6 +69,10 @@ class APIController implements ControllerProviderInterface {
         return new JsonResponse(
             array("countries" => SearchAPI::getCountries())
         );
+    }
+
+    private static function isFrontEndRequest($request) {
+        return fc_is_front_end_request($request);
     }
 }
 ?>
