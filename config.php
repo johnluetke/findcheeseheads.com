@@ -7,4 +7,5 @@ define("DATABASE_PASS",     getenv("DATABASE_PASS"));
 define("DEFAULT_COUNTRY",   getenv("DEFAULT_COUNTRY"));
 define("DEFAULT_ZIP_LIMIT", getenv("DEFAULT_ZIP_LIMIT"));
 define("MASHAPE_API_KEY",   getenv("MASHAPE_API_KEY"));
+define("ALLOWED_NETWORK",   getenv("ALLOWED_NETWORK"));
 ?>
