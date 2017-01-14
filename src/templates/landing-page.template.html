@@ -4,7 +4,7 @@
             <h1 class="text-nowrap">Find Cheeseheads<span class="hidden-sm hidden-xs"> Near You</span></h1>
             <form id="search" action="/search" method="get" ng-submit="search($event)">
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control input-lg" name="q" placeholder="Search by ZIP code, city or country" ng-model="criteria" />
+                    <input type="text" class="form-control input-lg" name="q" placeholder="Search by postal code or city" ng-model="criteria" />
                     <input type="hidden" name="c" ng-model="country" />
                     <i class="glyphicon glyphicon-search form-control-feedback"></i>
                 </div>
