@@ -1,7 +1,6 @@
 <?php
 require_once("config.php");
 require_once("vendor/autoload.php");
-require_once("src/php/api_auth.php");
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
