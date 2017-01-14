@@ -23,7 +23,7 @@ $app->get("/", function (Request $request) use ($app, $fc) {
         "version" => $fc->getVersion()
     )));
 
-    $response->headers->setCookie(fc_set_api_cookie($request));
+    #$response->headers->setCookie(fc_set_api_cookie($request));
     return $response;
 });
 
