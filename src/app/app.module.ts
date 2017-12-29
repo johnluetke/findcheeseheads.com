@@ -4,12 +4,14 @@ import { FormsModule }   from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFittextModule } from "angular-fittext";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SearchPageComponent } from './search-page/search-page.component';
 import { PrettyListPipe } from './filters/pretty-list.pipe';
 import { Nl2brPipe } from './filters/nl2br.pipe';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { Nl2brPipe } from './filters/nl2br.pipe';
     LandingPageComponent,
     SearchPageComponent,
     PrettyListPipe,
-    Nl2brPipe
+    Nl2brPipe,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +28,7 @@ import { Nl2brPipe } from './filters/nl2br.pipe';
     AppRoutingModule,
     AngularFittextModule,
     HttpClientModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

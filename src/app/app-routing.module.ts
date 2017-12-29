@@ -6,6 +6,8 @@ import { SearchPageComponent } from './search-page/search-page.component'
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
+  { path: 'search', component: SearchPageComponent },
+  { path: 'search/:country', component: SearchPageComponent },
   { path: 'search/:country/:query', component: SearchPageComponent }
 ];
 

@@ -1,0 +1,10 @@
+@import '../../../scss/variables';
+
+nav {
+  background-color: $green;
+  color: $gold;
+
+  .navbar-brand, .nav-link {
+    color: $gold;
+  }
+}
