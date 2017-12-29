@@ -1,0 +1,70 @@
+<div class="container">
+    <h2 class="page-header">Search</h2>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-7">
+      <input type="text" class="form-control" name="q" placeholder="Search by name, city, or postal code" [(ngModel)]="data.search.query" />
+    </div>
+    <div class="col-sm-12 col-md-3">
+      <select class="form-control" name="c" [(ngModel)]="data.search.country">
+        <option *ngFor="let country of data.countries" [selected]="country.code == this.data.search.country.code">{{ country.name }}</option>
+      </select>
+    </div>
+    <div class="col-sm-12 col-md-2">
+      <input type="button" class="btn btn-primary form-control" value="Search" (click)="search()" />
+    </div>
+  </div>
+
+  <div class="container" *ngIf="data.results.cities.length > 0">
+      <p class="row">Results include venues in {{ data.results.cities | prettyList }}.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="listing container-fluid" *ngFor="let venue of data.results.venues">
+    <div class="info">
+      <h2>{{ venue.name }}</h2>
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" *ngIf="venue.reports.count > 0" uib-tooltip-html="displayReports(venue.id)" tooltip-placement="right">!</span>
+      <address [innerHtml]="venue.address | nl2br"></address>
+      <ul class="actions small list-inline">
+        <li class="report list-inline-item"><a href="#" (click)="reportVenue($event, venue.id);">Report Issue</a></li>
+      </ul>
+      <div class="action report ng-hidden" *ngIf="data.report.id == venue.id">
+        <form name="venue_report_{{ venue.id }}" class="form-horizontal" (ngSubmit)="sendVenueReport()">
+          <div class="form-group">
+            <label for="report_reason">This venue is</label>
+            <select name="report_reason" class="form-control" [(ngModel)]="data.report.reason">
+              <option value="closed">permanently closed</option>
+              <option value="not_packer_bar">not Cheesehead friendly</option>
+              <option value="other_reason">(other reason)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control input-md ng-hidden" name="other" placeholder="enter other reason" *ngIf="data.report.reason == 'other_reason'" [(ngModel)]="data.report.other" />
+          </div>
+          <input type="submit" class="btn" value="Send Report" />
+        </form>
+      </div>
+      <div class="action message ng-hidden" ng-show="data.report.submitted" ng-bind=""></div>
+    </div>
+  </div>
+
+  <div *ngIf="data.search.hasCriteria() && !isSearching && data.results.venues.length == 0">
+    <h2>No bars were found :-(</h2>
+    <div class="center-block text-center">
+      <a href="/#!/add">
+        <button type="button" class="btn btn-default">Why not add one?</button>
+      </a>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="isSearching">
+    <img src="/assets/loading.gif" />
+  </div>
+
+  <div *ngIf="!data.search.hasCriteria()">
+    <h2>Search for a venue above.</h2>
+  </div>
+</div>
