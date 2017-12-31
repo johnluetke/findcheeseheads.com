@@ -4,9 +4,34 @@
 @import './variables';
 @import './open-iconic-bootstrap';
 
+body {
+  //background-color: $green;
+  height: 100vh;
+}
+
+h2 {
+  &.page-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+  }
+}
+
+.container {
+  //background-color: white;
+}
+
 .content {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+}
+
+.loading {
+  text-align: center;
+  padding-top: 20vh;
+}
+
+.align-right {
+  text-align: right;
 }
 
 .pull-left {

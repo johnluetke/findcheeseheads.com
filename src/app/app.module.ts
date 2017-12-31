@@ -15,6 +15,7 @@ import { Nl2brPipe } from './filters/nl2br.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { VenueListingComponent } from './components/venue-listing/venue-listing.component';
 import { DecodePipe } from './filters/decode.pipe';
+import { BrowsePageComponent } from './browse-page/browse-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { DecodePipe } from './filters/decode.pipe';
     Nl2brPipe,
     HeaderComponent,
     VenueListingComponent,
-    DecodePipe
+    DecodePipe,
+    BrowsePageComponent
   ],
   imports: [
     BrowserModule,

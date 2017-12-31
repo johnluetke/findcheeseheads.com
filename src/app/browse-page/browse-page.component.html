@@ -1,0 +1,11 @@
+<div class="container">
+  <h2 class="page-header">Browse</h2>
+</div>
+
+<div class="container">
+  <div class="loading" *ngIf="data.venues.length <= 0">
+    <img src="/assets/loading.gif" />
+  </div>
+
+  <fc-venue-listing *ngFor="let venue of data.venues" [venue]="venue" [allow-report]=false></fc-venue-listing>
+</div>
