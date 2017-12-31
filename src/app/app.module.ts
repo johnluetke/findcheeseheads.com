@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFittextModule } from "angular-fittext";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UiService } from './ui.service';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -30,7 +31,7 @@ import { HeaderComponent } from './components/header/header.component';
     HttpClientModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [UiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,16 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  font-size: smaller;
+  margin: 25px 15px;
+  border-top: 1px solid #ddd;
+  padding-top: 25px;
+
+  div {
+    font-size: smaller;
+  }
+}
