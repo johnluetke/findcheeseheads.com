@@ -11,8 +11,8 @@ export interface IReport {
 }
 
 export interface IReportType {
-  closed: number;
-  not_packer_par: number;
+  type: string;
+  count: number;
 }
 
 export interface ISearchCriteria {
@@ -33,7 +33,7 @@ export interface IVenue {
   lng: number;
   name: string;
   pending: boolean;
-  reports: IReport;
+  reports: IReport[];
 }
 
 export interface IVenueReportSubmission {
@@ -48,7 +48,6 @@ export class Country implements ICountry {
 
 export class Report implements IReport {
   constructor() {
-    this.count = 0;
   }
 }
 
@@ -91,12 +90,20 @@ export class Venue implements IVenue {
     venue.lng = obj['lng']
     venue.name = obj['name'];
     venue.pending = obj['pending'];
-    venue.reports = Util.parse(obj['reports'], new Report());
+    venue.reports = Util.parse(obj['reports'], []]);
     return venue;
   }
 
   constructor() {
-    this.reports = new Report();
+    this.reports = [];
+  }
+
+  getReportCount(): number {
+    let count = 0;
+    this.reports.forEach(function(report) {
+      count += report.count;
+    });
+    return count;
   }
 }
 

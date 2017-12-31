@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PrettyList } from '../pretty-list.pipe'
-import { SearchCriteria, SearchResults, VenueReportSubmission, Venue, IReport } from '../model';
+import { SearchCriteria, SearchResults, VenueReportSubmission, Venue, Report } from '../model';
 
 @Component({
   selector: 'fc-search-page',
@@ -15,7 +16,7 @@ export class SearchPageComponent implements OnInit {
 
   private routeSubscription: any;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.data = new Model();
   }
 
@@ -57,8 +58,15 @@ export class SearchPageComponent implements OnInit {
       self.data.results.venues = Venue.createFromArray(data.results);
 
       self.data.results.venues.forEach(function(venue: Venue) {
-        self.http.get<IReport>('http://dev.findcheeseheads.com/api/venue/' + venue.id + '/report').subscribe(reports => {
-          venue.reports = reports;
+        self.http.get<Report>('http://dev.findcheeseheads.com/api/venue/' + venue.id + '/report').subscribe(reports => {
+          let rpts: Report[] = [];
+          for (let report in reports.reports) {
+            let rpt = new Report();
+            rpt.type = report;
+            rpt.count = reports.reports[report];
+            rpts.push(rpt);
+          }
+          venue.reports = rpts;
         });
       });
     });
