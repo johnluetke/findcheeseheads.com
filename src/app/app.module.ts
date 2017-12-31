@@ -14,6 +14,7 @@ import { PrettyListPipe } from './filters/pretty-list.pipe';
 import { Nl2brPipe } from './filters/nl2br.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { VenueListingComponent } from './components/venue-listing/venue-listing.component';
+import { DecodePipe } from './filters/decode.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { VenueListingComponent } from './components/venue-listing/venue-listing.
     PrettyListPipe,
     Nl2brPipe,
     HeaderComponent,
-    VenueListingComponent
+    VenueListingComponent,
+    DecodePipe
   ],
   imports: [
     BrowserModule,
