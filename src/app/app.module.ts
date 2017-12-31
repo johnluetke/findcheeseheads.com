@@ -13,6 +13,7 @@ import { SearchPageComponent } from './search-page/search-page.component';
 import { PrettyListPipe } from './filters/pretty-list.pipe';
 import { Nl2brPipe } from './filters/nl2br.pipe';
 import { HeaderComponent } from './components/header/header.component';
+import { VenueListingComponent } from './components/venue-listing/venue-listing.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HeaderComponent } from './components/header/header.component';
     SearchPageComponent,
     PrettyListPipe,
     Nl2brPipe,
-    HeaderComponent
+    HeaderComponent,
+    VenueListingComponent
   ],
   imports: [
     BrowserModule,

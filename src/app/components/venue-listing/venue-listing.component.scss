@@ -1,0 +1,18 @@
+.listing {
+  h2 {
+    display: inline-block;
+
+    + span {
+      color: #a94442;
+      background-color: #f2dede;
+      border-color: #ebccd1;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      position: relative;
+      top: -3px;
+      padding: 3px;
+      padding-left: 4px;
+      margin-left: 10px;
+    }
+  }
+}
