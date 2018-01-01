@@ -1,24 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import { AngularFittextModule } from "angular-fittext";
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UiService } from './ui.service';
+import { AngularFittextModule } from "angular-fittext";
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { SearchPageComponent } from './search-page/search-page.component';
-import { PrettyListPipe } from './filters/pretty-list.pipe';
-import { Nl2brPipe } from './filters/nl2br.pipe';
+
 import { HeaderComponent } from './components/header/header.component';
 import { VenueListingComponent } from './components/venue-listing/venue-listing.component';
-import { DecodePipe } from './filters/decode.pipe';
-import { BrowsePageComponent } from './browse-page/browse-page.component';
-import { AddPageComponent } from './add-page/add-page.component';
-import { AgmCoreModule } from '@agm/core';
 import { FormatAddressDirective } from './directives/format-address.directive';
+import { DecodePipe } from './filters/decode.pipe';
+import { Nl2brPipe } from './filters/nl2br.pipe';
+import { PrettyListPipe } from './filters/pretty-list.pipe';
+import { BrowsePageComponent } from './pages/browse-page/browse-page.component';
+import { AddPageComponent } from './pages/add-page/add-page.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { UiService } from './services/ui.service';
 
 @NgModule({
   declarations: [

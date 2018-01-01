@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UiService } from './ui.service';
+
+import { UiService } from './services/ui.service';
 
 @Component({
   selector: 'fc-root',

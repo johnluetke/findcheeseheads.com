@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { PrettyList } from '../pretty-list.pipe'
-import { SearchCriteria, SearchResults, VenueReportSubmission, Venue, Report } from '../model';
+import { SearchCriteria, SearchResults, VenueReportSubmission, Venue, Report } from '../../model';
 
 @Component({
   selector: 'fc-search-page',

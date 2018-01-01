@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Venue } from '../model';
+import { Venue } from '../../model';
 
 @Component({
   selector: 'fc-browse-page',
