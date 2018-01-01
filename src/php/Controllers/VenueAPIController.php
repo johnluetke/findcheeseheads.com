@@ -22,16 +22,19 @@ class VenueAPIController extends ControllerCollection {
         $this->vote_api = new VoteAPI();
 
         $this->get("/", array($this, "getVenues"));
+        $this->options("/add", array($this, "addVenue"));
         $this->post("/add", array($this, "addVenue"));
         $this->get("/search/{criteria}", array($this, "searchVenues"))
             ->assert("criteria", ".+");
         $this->get("/{venue_id}/", array($this, "getVenue"));
 
         $this->get("/{venue_id}/report", array($this, "getVenueReports"));
+        $this->options("/{venue_id}/report", array($this, "reportVenue"));
         $this->post("/{venue_id}/report", array($this, "reportVenue"));
 
         // TODO: Does this need to be set explicitly?
         $this->before(array($controller, "authenticate"));
+        $this->after(array($controller, "cors"));
     }
 
     public function defaultAction() {
@@ -39,6 +42,10 @@ class VenueAPIController extends ControllerCollection {
     }
 
     public function addVenue(Request $request) {
+        if ($request->isMethod("options")) {
+            return new Response(null, 204);
+        }
+        
         $json = json_decode($request->getContent());
 
         $name = filter_var($json->name, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW & FILTER_FLAG_ENCODE_HIGH & FILTER_FLAG_ENCODE_AMP);
@@ -92,6 +99,10 @@ class VenueAPIController extends ControllerCollection {
     }
 
     public function reportVenue($venue_id, Request $request) {
+        if ($request->isMethod("options")) {
+            return new Response(null, 204);
+        }
+
         if ($request->request->get("venue_id") != $venue_id) {
             return new JsonResponse(array(
                 "message" => "Invalid Request: Venue mismatch"

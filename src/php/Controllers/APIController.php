@@ -29,6 +29,7 @@ class APIController implements ControllerProviderInterface {
 
         // This *should* apply to all /api/ requests
         $controllers->before(array($this, "authenticate"));
+        $controllers->after(array($this, "cors"));
 
         return $controllers;
     }
@@ -53,6 +54,11 @@ class APIController implements ControllerProviderInterface {
         else {
             return  new Response("401 Unauthorized", 401);
         }
+    }
+
+    public static function cors(Request $request, Response $response) {
+        $response->headers->set("Access-Control-Allow-Origin", "*");
+        $response->headers->set("Access-Control-Allow-Headers", "Content-Type");
     }
 
     public function defaultAction() {
