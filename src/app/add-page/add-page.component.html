@@ -1,0 +1,60 @@
+<div class="container">
+  <h2 class="page-header">Add a Venue</h2>
+</div>
+
+<div class="container">
+  <p><strong>Find Cheeseheads</strong> is a community-driven resource. As such, we rely on the community to share Packer bars and gathering spots throughout the world.</p>
+  <p>All venues found here have been submitted <strong>by Cheeseheads, for Cheeseheads</strong>. Please feel free to share your local Packer bar with others by adding it to our directory.</p>
+</div>
+
+<div class="container">
+  <div class="alert" role="alert" [innerHtml]="data.message" *ngIf="data.message.length > 0" [ngClass]="{'alert-success': !data.success, 'alert-danger': data.success}"></div>
+
+  <form id="add-place" method="post" class="form-horizontal" autocomplete="off" (ngSubmit)="submitVenue($event)">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="place-name" class="control-label">Venue Name</label>
+            <input type="text" id="place-name" name="name" class="form-control" placeholder="Bart's Bar and Grill" required minlength="3" [(ngModel)]="data.venue.name" [disabled]="isSubmitting" #name="ngModel" />
+            <div [hidden]="name.untouched || !name.pristine" class="alert alert-warning">Please provide a name for the venue</div>
+            <div [hidden]="isSubmitting || name.pristine || name.valid" class="alert alert-danger">Venue Name should be at least 3 characters</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="place-address" class="control-label">Address</label>
+            <textarea class="form-control" name="address" id="place-address" placeholder="1265 Lombardi Ave
+Green Bay, WI 54304" rows="3" required format-address (blur)="startGeocoding()" (formatted-address)="formattedAddress($event)" (latitude)="formattedLatitude($event)" (longitude)="formattedLongitude($event)" [(ngModel)]="data.venue.address"
+[disabled]="isGeocoding || isSubmitting" #address="ngModel"></textarea>
+            <div [hidden]="!isGeocoding" class="status"><img src="/assets/loading.gif" />Geocoding address...</div>
+            <div [hidden]="isGeocoding || isSubmitting || (address.pristine || address.valid)" class="alert alert-danger">Address is required</div>
+            <div [hidden]="address.untouched || !address.pristine" class="alert alert-warning">Please provide an address</div>
+            <input type="hidden" name="lat" [(ngModel)]="data.venue.lat"/>
+            <input type="hidden" name="lng" [(ngModel)]="data.venue.lng"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <agm-map class="map" [latitude]="data.mapLat" [longitude]="data.mapLng" [zoom]="data.mapZoom" [streetViewControl]="false">
+            <agm-marker [latitude]="data.venue.lat" [longitude]="data.venue.lng"></agm-marker>
+          </agm-map>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Submit for Review" [disabled]="name.invalid || address.invalid"/>
+          <div id="review-text">
+            <em class="small">Our staff will approve your submission after review. Reviews may take up to two days.</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

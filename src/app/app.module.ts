@@ -16,6 +16,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { VenueListingComponent } from './components/venue-listing/venue-listing.component';
 import { DecodePipe } from './filters/decode.pipe';
 import { BrowsePageComponent } from './browse-page/browse-page.component';
+import { AddPageComponent } from './add-page/add-page.component';
 import { AgmCoreModule } from '@agm/core';
 import { FormatAddressDirective } from './directives/format-address.directive';
 
@@ -30,6 +31,7 @@ import { FormatAddressDirective } from './directives/format-address.directive';
     VenueListingComponent,
     DecodePipe,
     BrowsePageComponent,
+    AddPageComponent,
     FormatAddressDirective
   ],
   imports: [

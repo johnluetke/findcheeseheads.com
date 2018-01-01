@@ -1,0 +1,33 @@
+@import '../../scss/variables';
+
+.form-group {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+.map {
+  display: block;
+  height: 150px;
+
+  @media screen and (min-width: map-get($grid-breakpoints, 'md')) {
+    margin-top: 32px;
+  }
+}
+
+.status {
+  font-size: smaller;
+  font-style: italic;
+
+  img {
+    max-height: 15px;
+    padding-right: 5px;
+  }
+}
+
+input[type="submit"] {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
