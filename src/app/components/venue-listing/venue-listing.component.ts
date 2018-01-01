@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Venue, VenueReportSubmission } from '../../model'
+import { Venue, VenueReportSubmission } from '../../model/venue'
 
 @Component({
   selector: 'fc-venue-listing',

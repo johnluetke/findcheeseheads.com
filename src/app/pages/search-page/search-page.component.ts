@@ -1,9 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
-import { PrettyList } from '../pretty-list.pipe'
-import { SearchCriteria, SearchResults, VenueReportSubmission, Venue, Report } from '../../model';
+import { PrettyList } from '../../filters/pretty-list.pipe'
+import { SearchCriteria, SearchResults } from '../../model/search';
+import { VenueReportSubmission, Venue, Report } from '../../model/venue';
 
 @Component({
   selector: 'fc-search-page',

@@ -1,9 +1,4 @@
-import { Util } from './util'
-
-export interface ICountry {
-  code: string;
-  name: string;
-}
+import { Util } from '../util'
 
 export interface IReport {
   reports: IReportType;
@@ -13,16 +8,6 @@ export interface IReport {
 export interface IReportType {
   type: string;
   count: number;
-}
-
-export interface ISearchCriteria {
-  query: string;
-  country: ICountry;
-}
-
-export interface ISearchResults {
-  cities: string[];
-  results: IVenue[];
 }
 
 export interface IVenue {
@@ -42,32 +27,9 @@ export interface IVenueReportSubmission {
   other: string;
 }
 
-export class Country implements ICountry {
-
-}
 
 export class Report implements IReport {
   constructor() {
-  }
-}
-
-export class SearchCriteria implements ISearchCriteria {
-  constructor() {
-    this.query = null;
-    this.country = new Country();
-  }
-
-  hasCriteria(): boolean {
-    return this.query != null && this.query.length > 0 &&
-           this.country != null && this.country.code != null && this.country.code.length > 0;
-  }
-}
-
-export class SearchResults extends SearchCriteria implements ISearchResults {
-  constructor() {
-    super();
-    this.cities = [];
-    this.venues = [];
   }
 }
 
@@ -107,8 +69,6 @@ export class Venue implements IVenue {
   }
 }
 
-
-export class
-VenueReportSubmission implements IVenueReportSubmission {
+export class VenueReportSubmission implements IVenueReportSubmission {
 
 }

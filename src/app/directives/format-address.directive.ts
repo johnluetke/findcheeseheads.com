@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter, Directive, HostListener, OnInit, Output } from '@angular/core';
-import { Venue } from '../model';
+import { Venue } from '../model/venue';
 
 declare var google: any;
 
