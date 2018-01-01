@@ -13,11 +13,15 @@ import { SearchCriteria, SearchResults, VenueReportSubmission, Venue, Report } f
 export class SearchPageComponent implements OnInit {
 
   data: Model;
+  isSearching: boolean;
+  errorMessage: string;
 
   private routeSubscription: any;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.data = new Model();
+    this.isSearching = false;
+    this.errorMessage = "";
   }
 
   ngOnInit() {
@@ -51,7 +55,6 @@ export class SearchPageComponent implements OnInit {
     this.isSearching = true;
     this.data.results = new SearchResults();
     this.http.get('http://dev.findcheeseheads.com/api/venue/search/' + this.data.search.country.code + '/' + this.data.search.query).subscribe(data => {
-      self.isSearching = false;
       self.data.results.query = self.data.search.query;
       self.data.results.country = self.data.search.country;
       self.data.results.cities = data.cities;
@@ -67,8 +70,19 @@ export class SearchPageComponent implements OnInit {
             rpts.push(rpt);
           }
           venue.reports = rpts;
+        },
+        error => {
+          console.error(error);
         });
       });
+    },
+    error => {
+      self.isSearching = false;
+      self.errorMessage = "An error occured retrieving search results. Please try again later.";
+      self.data.results = new SearchResults();
+    },
+    () => {
+      self.isSearching = false;
     });
   }
 
@@ -88,8 +102,6 @@ export class SearchPageComponent implements OnInit {
 }
 
 export interface Model {
-  isSearching: boolean;
-
   countries: Country[];
 
   search: SearchCriteria;
@@ -99,7 +111,7 @@ export interface Model {
 
 export class Model implements IModel {
   constructor() {
-    this.isSearching = false;
+    this.errorMessage = "";
 
     this.countries = [];
 

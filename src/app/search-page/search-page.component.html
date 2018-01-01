@@ -27,7 +27,11 @@
     <fc-venue-listing [venue]="venue" [allow-report]=true></fc-venue-listing>
   </span>
 
-  <div *ngIf="data.search.hasCriteria() && !isSearching && data.results.venues.length == 0">
+  <div *ngIf="errorMessage.length > 0" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="data.search.hasCriteria() && !isSearching && data.results.venues.length == 0 && errorMessage.length == 0">
     <h2>No bars were found :-(</h2>
     <div class="center-block text-center">
       <a href="/#!/add">
