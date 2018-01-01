@@ -16,6 +16,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { VenueListingComponent } from './components/venue-listing/venue-listing.component';
 import { DecodePipe } from './filters/decode.pipe';
 import { BrowsePageComponent } from './browse-page/browse-page.component';
+import { AgmCoreModule } from '@agm/core';
+import { FormatAddressDirective } from './directives/format-address.directive';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { BrowsePageComponent } from './browse-page/browse-page.component';
     HeaderComponent,
     VenueListingComponent,
     DecodePipe,
-    BrowsePageComponent
+    BrowsePageComponent,
+    FormatAddressDirective
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,10 @@ import { BrowsePageComponent } from './browse-page/browse-page.component';
     AppRoutingModule,
     AngularFittextModule,
     HttpClientModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD9v9Fz3bIPgZ4Ri-B9NS0E7Q7_Bkj-FMg'
+    })
   ],
   providers: [UiService],
   bootstrap: [AppComponent]
