@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PrettyList } from '../../filters/pretty-list.pipe'
 import { SearchCriteria, SearchResults } from '../../model/search';
 import { VenueReportSubmission, Venue, Report } from '../../model/venue';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'fc-search-page',
@@ -31,7 +32,7 @@ export class SearchPageComponent implements OnInit {
 
       // if no country provided, detect it
       if (this.data.search.country.code == undefined) {
-        this.http.get('http://dev.findcheeseheads.com/api/country').subscribe(data => {
+        this.http.get(environment.apiUrl + '/country').subscribe(data => {
           this.data.search.country = data.country;
         });
       }
@@ -41,7 +42,7 @@ export class SearchPageComponent implements OnInit {
       }
     });
 
-    this.http.get('http://dev.findcheeseheads.com/api/countries').subscribe(data => {
+    this.http.get(environment.apiUrl + '/countries').subscribe(data => {
       this.data.countries = data.countries;
     });
   }
@@ -54,14 +55,14 @@ export class SearchPageComponent implements OnInit {
     let self = this;
     this.isSearching = true;
     this.data.results = new SearchResults();
-    this.http.get('http://dev.findcheeseheads.com/api/venue/search/' + this.data.search.country.code + '/' + this.data.search.query).subscribe(data => {
+    this.http.get(environment.apiUrl + '/venue/search/' + this.data.search.country.code + '/' + this.data.search.query).subscribe(data => {
       self.data.results.query = self.data.search.query;
       self.data.results.country = self.data.search.country;
       self.data.results.cities = data.cities;
       self.data.results.venues = Venue.createFromArray(data.results);
 
       self.data.results.venues.forEach(function(venue: Venue) {
-        self.http.get<Report>('http://dev.findcheeseheads.com/api/venue/' + venue.id + '/report').subscribe(reports => {
+        self.http.get<Report>(environment.apiUrl + '/venue/' + venue.id + '/report').subscribe(reports => {
           let rpts: Report[] = [];
           for (let report in reports.reports) {
             let rpt = new Report();

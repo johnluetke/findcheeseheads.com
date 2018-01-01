@@ -1,7 +1,7 @@
 export const environment = {
-  production: true,
-  apiUrl: "https://findcheeseheads.com/api",
-  name: "prod",
+  production: false,
+  apiUrl: "https://ci.findcheeseheads.com/api",
+  name: "CI",
   version: {
     branch: "master",
     revision: "dev"

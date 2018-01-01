@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Venue, VenueReportSubmission } from '../../model/venue'
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'fc-venue-listing',
@@ -36,7 +37,7 @@ export class VenueListingComponent implements OnInit {
   submitReport(): void {
     this.report.id = this.venue.id;
     console.log(this.report);
-    this.http.post('https://dev.findcheeseheads.com/api/venue/' + this.venue.id + '/report',
+    this.http.post(environment.apiUrl + '/venue/' + this.venue.id + '/report',
                    this.report).subscribe(data => {
       console.log(data);
     });

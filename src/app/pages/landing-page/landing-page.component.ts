@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchCriteria } from '../../model/search'
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'fc-landing-page',
@@ -16,7 +17,7 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     this.model = <SearchCriteria>[];
-    this.http.get('http://dev.findcheeseheads.com/api/country').subscribe(data => {
+    this.http.get(environment.apiUrl + '/country').subscribe(data => {
       this.model.country = data.country;
     });
   }

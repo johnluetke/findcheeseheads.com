@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Venue } from '../../model/venue';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'fc-browse-page',
@@ -20,7 +21,7 @@ export class BrowsePageComponent implements OnInit {
   }
 
   fetchVenues(): void {
-    this.http.get('http://dev.findcheeseheads.com/api/venue/').subscribe(data => {
+    this.http.get(environment.apiUrl + '/venue/').subscribe(data => {
       this.data.venues = Venue.createFromArray(data);
     });
   }

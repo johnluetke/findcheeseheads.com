@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Venue } from '../../model/venue';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'fc-add-page',
@@ -52,7 +53,7 @@ export class AddPageComponent implements OnInit {
       this.data.venue.location = {};
       this.data.venue.location.lat = this.data.venue.lat;
       this.data.venue.location.lng = this.data.venue.lng;
-      this.http.post('https://dev.findcheeseheads.com/api/venue/add', this.data.venue).subscribe(data => {
+      this.http.post(environment.apiUrl + '/venue/add', this.data.venue).subscribe(data => {
         this.success = true;
         this.data.message = data.message;
       },
