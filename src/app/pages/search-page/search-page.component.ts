@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PrettyList } from '../../filters/pretty-list.pipe'
 import { SearchCriteria, SearchResults } from '../../model/search';
-import { VenueReportSubmission, Venue, Report } from '../../model/venue';
+import { Report, VenueReportSubmission, Venue } from '../../model/venue';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -62,7 +62,7 @@ export class SearchPageComponent implements OnInit {
       self.data.results.venues = Venue.createFromArray(data.results);
 
       self.data.results.venues.forEach(function(venue: Venue) {
-        self.http.get<Report>(environment.apiUrl + '/venue/' + venue.id + '/report').subscribe(reports => {
+        self.http.get<any>(environment.apiUrl + '/venue/' + venue.id + '/report').subscribe(reports => {
           let rpts: Report[] = [];
           for (let report in reports.reports) {
             let rpt = new Report();

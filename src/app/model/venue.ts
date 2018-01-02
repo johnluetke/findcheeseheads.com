@@ -1,11 +1,11 @@
 import { Util } from '../util'
 
-export interface IReport {
-  reports: IReportType;
-  count: number;
+export interface ICoordinates {
+  lat: number;
+  lng: number;
 }
 
-export interface IReportType {
+export interface IReport {
   type: string;
   count: number;
 }
@@ -28,9 +28,12 @@ export interface IVenueReportSubmission {
 }
 
 
-export class Report implements IReport {
-  constructor() {
   }
+}
+
+export class Report implements IReport {
+  type: string = null;
+  count: number = undefined;
 }
 
 export class Venue implements IVenue {
@@ -52,7 +55,7 @@ export class Venue implements IVenue {
     venue.lng = obj['lng']
     venue.name = obj['name'];
     venue.pending = obj['pending'];
-    venue.reports = Util.parse(obj['reports'], []]);
+    venue.reports = Util.parse(obj['reports'], []);
     return venue;
   }
 
