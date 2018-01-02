@@ -4,8 +4,8 @@
       <h1 class="text-nowrap" [fittext]>Find <span class="d-block d-sm-inline">Cheeseheads</span> <span class="d-none d-md-inline-block">Near You</span></h1>
       <form id="search" action="/search" method="get" (ngSubmit)="doSearch($event)">
         <div class="input-group has-feedback">
-          <input type="text" class="form-control input-lg" name="query" placeholder="Search by postal code or city"   [(ngModel)]="model.query" />
-          <input type="hidden" name="country" [(ngModel)]="model.country" />
+          <input type="text" class="form-control input-lg" name="query" placeholder="Search by postal code or city"   [(ngModel)]="search.query" />
+          <input type="hidden" name="country" [(ngModel)]="search.country" />
           <button class="input-group-addon" (click)="doSearch($event)">
             <i class="oi oi-magnifying-glass form-control-feedback"></i>
           </button>

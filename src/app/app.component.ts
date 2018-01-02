@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
     return "DEV";
   }
 
-  copyrightYear() : string {
-    return (new Date()).getYear() + 1900;
+  copyrightYear() : number {
+    return (new Date()).getFullYear();
   }
 
   showHeader(): boolean {

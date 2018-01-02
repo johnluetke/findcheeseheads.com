@@ -3,9 +3,9 @@
 </div>
 
 <div class="container">
-  <div class="loading" *ngIf="data.venues.length <= 0">
+  <div class="loading" *ngIf="venues.length <= 0">
     <img src="/assets/loading.gif" />
   </div>
 
-  <fc-venue-listing *ngFor="let venue of data.venues" [venue]="venue" [allow-report]=false></fc-venue-listing>
+  <fc-venue-listing *ngFor="let venue of venues" [venue]="venue" [allow-report]=false></fc-venue-listing>
 </div>

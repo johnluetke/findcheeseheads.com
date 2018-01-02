@@ -1,4 +1,5 @@
 import { Util } from '../util'
+import { IVenue, Venue } from './venue';
 
 export interface ICountry {
   code: string;
@@ -12,17 +13,17 @@ export interface ISearchCriteria {
 
 export interface ISearchResults {
   cities: string[];
-  results: IVenue[];
+  venues: IVenue[];
 }
 
 export class Country implements ICountry {
+  code: string = null;
+  name: string = null;
 }
 
 export class SearchCriteria implements ISearchCriteria {
-  constructor() {
-    this.query = null;
-    this.country = new Country();
-  }
+  query: string = null;
+  country: Country = new Country();
 
   hasCriteria(): boolean {
     return this.query != null && this.query.length > 0 &&
@@ -31,9 +32,10 @@ export class SearchCriteria implements ISearchCriteria {
 }
 
 export class SearchResults extends SearchCriteria implements ISearchResults {
+  cities: string[] = [];
+  venues: Venue[] = [];
+
   constructor() {
     super();
-    this.cities = [];
-    this.venues = [];
   }
 }

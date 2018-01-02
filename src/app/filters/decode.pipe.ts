@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DecodePipe implements PipeTransform {
 
-  private txt: ElementRef;
+  private txt: HTMLTextAreaElement;
 
   constructor() {
     this.txt = document.createElement("textarea");

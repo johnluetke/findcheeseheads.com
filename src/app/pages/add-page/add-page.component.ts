@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Venue } from '../../model/venue';
+import { Coordinates, Venue } from '../../model/venue';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -10,52 +10,63 @@ import { environment } from '../../../environments/environment';
 })
 export class AddPageComponent implements OnInit {
 
-  data: Model;
   isGeocoding: boolean;
   isSubmitting: boolean;
+  mapLat: number;
+  mapLng: number;
+  mapZoom: number;
+  message: string;
+  success: boolean;
+  venue: Venue;
 
   constructor(private http: HttpClient) {
-    this.data = new Model();
     this.isSubmitting = false;
     this.isGeocoding = false;
+    this.mapLat = 41.030;
+    this.mapLng = -30.058;
+    this.mapZoom = 2;
+    this.message = "";
+    this.success = null;
+    this.venue = new Venue();
   }
 
   ngOnInit() {
   }
 
   formattedAddress(event) {
-    this.data.venue.address = event;
+    this.venue.address = event;
     this.isGeocoding = false;
 
   }
 
   formattedLatitude(event) {
-    this.data.venue.lat = event;
+    this.venue.lat = event;
     this.isGeocoding = false;
     this.mapView();
   }
 
   formattedLongitude(event) {
-    this.data.venue.lng = event;
+    this.venue.lng = event;
     this.isGeocoding = false;
     this.mapView();
   }
 
   startGeocoding(): void {
-    if (this.data.venue.address != null) {
+    if (this.venue.address != null) {
       this.isGeocoding = true;
     }
   }
 
   submitVenue($event): void {
     this.isSubmitting = true;
-    if (this.data.venue.name && this.data.venue.address) {
-      this.data.venue.location = {};
-      this.data.venue.location.lat = this.data.venue.lat;
-      this.data.venue.location.lng = this.data.venue.lng;
-      this.http.post(environment.apiUrl + '/venue/add', this.data.venue).subscribe(data => {
+    if (this.venue.name && this.venue.address) {
+      this.venue.location = new Coordinates(
+        this.venue.lat,
+        this.venue.lng);
+
+      this.http.post<any>(environment.apiUrl + '/venue/add', this.venue).subscribe(data => {
         this.success = true;
-        this.data.message = data.message;
+        this.message = data.message;
       },
       error => {
         this.success = false;
@@ -70,29 +81,11 @@ export class AddPageComponent implements OnInit {
   }
 
   private mapView(): void {
-    if (this.data.venue.lat && this.data.venue.lng) {
-      this.data.mapZoom = 10;
-      this.data.mapLat = this.data.venue.lat;
-      this.data.mapLng = this.data.venue.lng;
+    if (this.venue.lat && this.venue.lng) {
+      this.mapZoom = 10;
+      this.mapLat = this.venue.lat;
+      this.mapLng = this.venue.lng;
     }
   }
 
-}
-
-class Model {
-
-  mapLat: number;
-  mapLng: number;
-  mapZoom: number;
-  message: string;
-  success: boolean;
-  venue: Venue;
-
-  constructor() {
-    this.mapLat = 41.030;
-    this.mapLng = -30.058;
-    this.mapZoom = 2;
-    this.message = "";
-    this.venue = new Venue();
-  }
 }

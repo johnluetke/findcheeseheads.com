@@ -10,10 +10,10 @@ import { environment } from '../../../environments/environment';
 })
 export class BrowsePageComponent implements OnInit {
 
-  data: Model;
+  venues: Venue[];
 
   constructor(private http: HttpClient) {
-    this.data = new Model();
+    this.venues = [];
   }
 
   ngOnInit() {
@@ -21,16 +21,8 @@ export class BrowsePageComponent implements OnInit {
   }
 
   fetchVenues(): void {
-    this.http.get(environment.apiUrl + '/venue/').subscribe(data => {
-      this.data.venues = Venue.createFromArray(data);
+    this.http.get<any>(environment.apiUrl + '/venue/').subscribe(data => {
+      this.venues = Venue.createFromArray(data);
     });
-  }
-}
-
-class Model {
-  venues: Venue[];
-
-  constructor() {
-    this.venues = [];
   }
 }

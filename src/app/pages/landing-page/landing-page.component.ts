@@ -11,19 +11,19 @@ import { environment } from '../../../environments/environment';
 })
 export class LandingPageComponent implements OnInit {
 
-  model: SearchCriteria;
+  search: SearchCriteria;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
-    this.model = <SearchCriteria>[];
-    this.http.get(environment.apiUrl + '/country').subscribe(data => {
-      this.model.country = data.country;
+    this.search = new SearchCriteria();
+    this.http.get<any>(environment.apiUrl + '/country').subscribe(data => {
+      this.search.country = data.country;
     });
   }
 
   doSearch(event: any) {
     event.preventDefault();
-    this.router.navigate(['search', this.model.country.code, this.model.query])
+    this.router.navigate(['search', this.search.country.code, this.search.query])
   }
 }

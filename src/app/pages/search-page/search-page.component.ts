@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PrettyList } from '../../filters/pretty-list.pipe'
-import { SearchCriteria, SearchResults } from '../../model/search';
+import { Country, SearchCriteria, SearchResults } from '../../model/search';
 import { Report, VenueReportSubmission, Venue } from '../../model/venue';
 import { environment } from '../../../environments/environment';
 
@@ -32,7 +31,7 @@ export class SearchPageComponent implements OnInit {
 
       // if no country provided, detect it
       if (this.data.search.country.code == undefined) {
-        this.http.get(environment.apiUrl + '/country').subscribe(data => {
+        this.http.get<any>(environment.apiUrl + '/country').subscribe(data => {
           this.data.search.country = data.country;
         });
       }
@@ -42,7 +41,7 @@ export class SearchPageComponent implements OnInit {
       }
     });
 
-    this.http.get(environment.apiUrl + '/countries').subscribe(data => {
+    this.http.get<any>(environment.apiUrl + '/countries').subscribe(data => {
       this.data.countries = data.countries;
     });
   }
@@ -55,7 +54,7 @@ export class SearchPageComponent implements OnInit {
     let self = this;
     this.isSearching = true;
     this.data.results = new SearchResults();
-    this.http.get(environment.apiUrl + '/venue/search/' + this.data.search.country.code + '/' + this.data.search.query).subscribe(data => {
+    this.http.get<any>(environment.apiUrl + '/venue/search/' + this.data.search.country.code + '/' + this.data.search.query).subscribe(data => {
       self.data.results.query = self.data.search.query;
       self.data.results.country = self.data.search.country;
       self.data.results.cities = data.cities;
@@ -102,18 +101,13 @@ export class SearchPageComponent implements OnInit {
   }
 }
 
-export interface Model {
+export class Model {
   countries: Country[];
-
   search: SearchCriteria;
   report: VenueReportSubmission;
   results: SearchResults;
-}
 
-export class Model implements IModel {
   constructor() {
-    this.errorMessage = "";
-
     this.countries = [];
 
     this.search = new SearchCriteria();

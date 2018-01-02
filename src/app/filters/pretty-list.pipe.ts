@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PrettyListPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    if (value typeof(Array)) {
+    if (value instanceof Array) {
       let str: string = "";
       value.forEach(function(val: string, i: number) {
         if (i + 2 < value.length) {

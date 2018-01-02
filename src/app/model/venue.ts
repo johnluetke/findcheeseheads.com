@@ -16,6 +16,7 @@ export interface IVenue {
   last_updated: Date;
   lat: number;
   lng: number;
+  location: ICoordinates;
   name: string;
   pending: boolean;
   reports: IReport[];
@@ -27,7 +28,13 @@ export interface IVenueReportSubmission {
   other: string;
 }
 
+export class Coordinates implements ICoordinates {
+  lat: number = 0;
+  lng: number = 0;
 
+  constructor(lat: number, lng: number) {
+    this.lat = lat;
+    this.lng = lng;
   }
 }
 
@@ -50,18 +57,24 @@ export class Venue implements IVenue {
     let venue : Venue = new Venue();
     venue.address = obj['address'];
     venue.id = obj['id'];
-    venue.last_updated = obj['last_updated']
-    venue.lat = obj['lat']
-    venue.lng = obj['lng']
+    venue.last_updated = obj['last_updated'];
+    venue.lat = obj['lat'];
+    venue.lng = obj['lng'];
     venue.name = obj['name'];
     venue.pending = obj['pending'];
     venue.reports = Util.parse(obj['reports'], []);
     return venue;
   }
 
-  constructor() {
-    this.reports = [];
-  }
+  address: string = null;
+  id: number = null;
+  last_updated: Date = new Date();
+  lat: number = null;
+  lng: number = null;
+  location: Coordinates = null;
+  name: string = null;
+  pending: boolean = null;
+  reports: Report[] = [];
 
   getReportCount(): number {
     let count = 0;
@@ -73,5 +86,7 @@ export class Venue implements IVenue {
 }
 
 export class VenueReportSubmission implements IVenueReportSubmission {
-
+  id: number = null;
+  reason: string = null;
+  other: string = null;
 }

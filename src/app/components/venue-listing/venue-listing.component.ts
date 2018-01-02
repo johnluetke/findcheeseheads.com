@@ -14,6 +14,8 @@ export class VenueListingComponent implements OnInit {
 
   @Input() venue;
   @Input("allow-report") allowReport = false;
+
+  reportModalCloseResult: string;
   report: VenueReportSubmission;
 
   constructor(private http: HttpClient, private modalService: NgbModal) {
@@ -25,10 +27,10 @@ export class VenueListingComponent implements OnInit {
 
   openModal(content) {
     this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
+      this.reportModalCloseResult = `Closed with: ${result}`;
       this.report = new VenueReportSubmission();
     }, (reason) => {
-      this.closeResult = `Dismissed with: ${reason}`;
+      this.reportModalCloseResult = `Dismissed with: ${reason}`;
       this.report = new VenueReportSubmission();
     });
     return false;
