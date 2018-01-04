@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, Directive, HostListener, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, Directive, HostListener, OnInit, Output } from '@angular/core';
 import { Venue } from '../model/venue';
 
 declare var google: any;
@@ -13,7 +13,7 @@ export class FormatAddressDirective {
   @Output('longitude') lng: EventEmitter<number>;
   geocoder: any;
 
-  constructor(private el: ElementRef) {
+  constructor(private el: ElementRef, private cdr: ChangeDetectorRef) {
     this.addr = new EventEmitter<string>();
     this.lat = new EventEmitter<number>();
     this.lng = new EventEmitter<number>();
@@ -52,6 +52,7 @@ export class FormatAddressDirective {
         self.addr.emit(addr);
         self.lat.emit(latlng.lat());
         self.lng.emit(latlng.lng());
+        self.cdr.detectChanges();
       }
     });
   }
