@@ -4,10 +4,12 @@
     <span class="oi oi-warning" aria-hidden="true" *ngIf="venue.getReportCount() > 0" [ngbTooltip]="reportTooltip" tooltip-placement="right"></span>
 
     <ng-template #reportTooltip>
-      There are <span [innerHtml]="venue.getReportCount()"></span> open reports for this venue:<br/>
-      <ul>
-        <li *ngFor="let report of venue.reports">{{ report.type }}: {{ report.count }}</li>
-      </ul>
+      <div class="report-tooltip">
+        There are <span [innerHtml]="venue.getReportCount()"></span> open reports for {{ venue.name }}:<br/>
+        <ul>
+          <li *ngFor="let report of venue.reports">{{ reportType(report.type) }}: {{ report.count }}</li>
+        </ul>
+      </div>
     </ng-template>
 
     <ng-template #reportModal let-c="close" let-d="dismiss">
@@ -39,6 +41,9 @@
     <address [innerHtml]="venue.address | nl2br"></address>
   </div>
 
+  <div *ngIf="reportMessage" class="alert alert-success">
+    {{ reportMessage }}
+  </div>
   <ul class="actions small list-inline" *ngIf="allowReport">
     <li class="report list-inline-item"><a href="./" (click)="openModal(reportModal);">Report Issue</a></li>
   </ul>
