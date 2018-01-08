@@ -55,6 +55,10 @@ export class SearchPageComponent implements OnInit {
     this.isSearching = true;
     this.data.results = new SearchResults();
     this.http.get<any>(environment.apiUrl + '/venue/search/' + this.data.search.country.code + '/' + this.data.search.query).subscribe(data => {
+      if (data.cities == null) {
+        data.cities = [];
+      }
+
       self.data.results.query = self.data.search.query;
       self.data.results.country = self.data.search.country;
       self.data.results.cities = data.cities;
