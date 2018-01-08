@@ -103,14 +103,16 @@ class VenueAPIController extends ControllerCollection {
             return new Response(null, 204);
         }
 
-        if ($request->request->get("venue_id") != $venue_id) {
+        $json = json_decode($request->getContent());
+
+        if ($json->id != $venue_id) {
             return new JsonResponse(array(
                 "message" => "Invalid Request: Venue mismatch"
             ), 400);
         }
         else {
-            $reason = filter_var($request->request->get("report_reason"), FILTER_SANITIZE_SPECIAL_CHARS);
-            $other = filter_var($request->request->get("other"), FILTER_SANITIZE_SPECIAL_CHARS);
+            $reason = filter_var($json->reason, FILTER_SANITIZE_SPECIAL_CHARS);
+            $other = filter_var($json->other, FILTER_SANITIZE_SPECIAL_CHARS);
 
             if (empty($reason)) {
                 return new JsonResponse(array(
@@ -118,7 +120,7 @@ class VenueAPIController extends ControllerCollection {
                 ), 400);
             }
             else {
-                $this->api->createVenueReport($venue_id, $request->get("report_reason"), $request->get("other"));
+                $this->api->createVenueReport($venue_id, $reason, $other);
                 return new JsonResponse(array("message" => "Your report has been submitted."));
             }
         }
