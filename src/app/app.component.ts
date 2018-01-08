@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UiService } from './services/ui.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'fc-root',
@@ -16,11 +17,11 @@ export class AppComponent implements OnInit {
   }
 
   appBranch() : string {
-    return "MASTAH"
+    return environment.version.branch;
   }
 
   appRevision() : string {
-    return "DEV";
+    return environment.version.revision;
   }
 
   copyrightYear() : number {
