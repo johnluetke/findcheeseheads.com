@@ -22,6 +22,10 @@ export class LandingPageComponent implements OnInit {
     });
   }
 
+  copyrightYear() : number {
+    return (new Date()).getFullYear();
+  }
+
   doSearch(event: any) {
     event.preventDefault();
     this.router.navigate(['search', this.search.country.code, this.search.query])
