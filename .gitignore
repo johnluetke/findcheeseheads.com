@@ -6,6 +6,7 @@ src/environments/*
 /dist
 /tmp
 /out-tsc
+/src/api/vendor
 
 # dependencies
 /node_modules
