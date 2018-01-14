@@ -86,7 +86,7 @@ class VenueAPI extends API {
         }
         else {
             $where = "";
-            foreach ($zip as $zip) {
+            foreach ($zips as $zip) {
                 $where = sprintf("%s OR %s LIKE '%%%s%%'", $where, "address", $zip);
             }
 
