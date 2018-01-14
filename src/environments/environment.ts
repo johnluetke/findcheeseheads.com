@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  apiUrl: "https://dev.findcheeseheads.com/api",
+  production: true,
+  apiUrl: "http://localhost/~jluetke/findcheeseheads.com/api",
   name: "dev",
   version: {
     branch: "master",

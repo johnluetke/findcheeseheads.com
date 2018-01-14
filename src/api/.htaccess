@@ -1,3 +1,12 @@
+SetEnv ALLOWED_NETWORK 127.0.0.1/32
+SetEnv DATABASE_HOST mysql.api.johnluetke.com
+SetEnv DATABASE_PASS ???
+SetEnv DATABASE_USER ???
+SetEnv DATABASE_USER_W ???
+SetEnv DATABASE_NAME ???
+SetEnv DEFAULT_COUNTRY US
+SetEnv DEFAULT_ZIP_LIMIT 10
+SetEnv MASHAPE_API_KEY ???
 
 Options -MultiViews
 
