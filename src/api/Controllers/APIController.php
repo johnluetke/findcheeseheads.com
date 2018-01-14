@@ -48,7 +48,8 @@ class APIController implements ControllerProviderInterface {
         }
         else if ($request->server->has("REMOTE_ADDR") &&
                  $request->server->get("REMOTE_ADDR") == "50.135.250.160" ||
-                 $request->server->get("REMOTE_ADDR") == "12.144.134.6" ||
+                 $request->server->get("REMOTE_ADDR") == "127.0.0.1" ||
+                 $request->server->get("REMOTE_ADDR") == "::1" ||
                  cidr_match($request->server->get("REMOTE_ADDR"), ALLOWED_NETWORK)) {
         }
         else {
