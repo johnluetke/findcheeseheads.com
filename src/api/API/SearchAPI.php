@@ -35,8 +35,11 @@ class SearchAPI {
         $http->setUri("http://ipinfo.io/" . $ip . "/json");
         $response = $http->send();
         $json     = Json::decode($response->getBody());
-        return      array(
-            "code" => strtolower($json->country)
+
+        $country = empty($json->country) ? DEFAULT_COUNTRY : $json->country;
+
+        return array(
+            "code" => strtolower($country)
         );
     }
 
@@ -47,7 +50,7 @@ class SearchAPI {
             $zip_codes[] = $zip_code->{'post code'};
             $cities[] = $zip_code->{'place name'};
         }
-    
+
         if ($depth > 0) {
             foreach ($zip_codes as $zip_code) {
                 list($z, $c) = self::zipCodeSearch($country, $zip_code, $depth - 1);
@@ -55,7 +58,7 @@ class SearchAPI {
                 $cities = array_merge($cities, $c);
             }
         }
-    
+
         $zip_codes = array_values(array_unique($zip_codes));
         $cities = array_values(array_unique($cities));
 
