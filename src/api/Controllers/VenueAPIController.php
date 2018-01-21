@@ -21,7 +21,8 @@ class VenueAPIController extends ControllerCollection {
         $this->api_controller = $controller;
         $this->vote_api = new VoteAPI();
 
-        $this->get("/", array($this, "getVenues"));
+        $this->match("/", array($this, "getVenues"))
+            ->method("GET|OPTIONS");
 
         $this->options("/add", array($this, "addVenue"));
         $this->post("/add", array($this, "addVenue"));
@@ -92,7 +93,10 @@ class VenueAPIController extends ControllerCollection {
         ));
     }
 
-    public function getVenues() {
+    public function getVenues(Request $request) {
+        if ($request->isMethod("options")) {
+            return new Response(null, 204);
+        }
         return new JsonResponse($this->api->getVenues());
     }
 
