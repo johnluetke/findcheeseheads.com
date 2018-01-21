@@ -44,23 +44,26 @@ class SearchAPI {
     }
 
     public static function zipCodeSearch($country, $zip_code, $depth = 0) {
-        $nearby_zip_codes = Zippopotamus::nearby($country, $zip_code);
         $zip_codes = array(); $cities = array();
-        foreach (array_limit($nearby_zip_codes->nearby, 10) as $zip_code) {
-            $zip_codes[] = $zip_code->{'post code'};
-            $cities[] = $zip_code->{'place name'};
-        }
+        $nearby_zip_codes = Zippopotamus::nearby($country, $zip_code);
 
-        if ($depth > 0) {
-            foreach ($zip_codes as $zip_code) {
-                list($z, $c) = self::zipCodeSearch($country, $zip_code, $depth - 1);
-                $zip_codes = array_merge($zip_codes, $z);
-                $cities = array_merge($cities, $c);
+        if ($nearby_zip_codes != null && $nearby_zip_codes != new \stdClass()) {
+            foreach (array_limit($nearby_zip_codes->nearby, 10) as $zip_code) {
+                $zip_codes[] = $zip_code->{'post code'};
+                $cities[] = $zip_code->{'place name'};
             }
-        }
 
-        $zip_codes = array_values(array_unique($zip_codes));
-        $cities = array_values(array_unique($cities));
+            if ($depth > 0) {
+                foreach ($zip_codes as $zip_code) {
+                    list($z, $c) = self::zipCodeSearch($country, $zip_code, $depth - 1);
+                    $zip_codes = array_merge($zip_codes, $z);
+                    $cities = array_merge($cities, $c);
+                }
+            }
+
+            $zip_codes = array_values(array_unique($zip_codes));
+            $cities = array_values(array_unique($cities));
+        }
 
         return array($zip_codes, $cities);
     }
