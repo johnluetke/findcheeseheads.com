@@ -1,5 +1,5 @@
 import { AgmCoreModule } from '@agm/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpBackend, HttpClientModule, HttpRequest, HttpXhrBackend } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,6 +15,7 @@ import { FormatAddressDirective } from './directives/format-address.directive';
 import { DecodePipe } from './filters/decode.pipe';
 import { Nl2brPipe } from './filters/nl2br.pipe';
 import { PrettyListPipe } from './filters/pretty-list.pipe';
+import { APIKeyHttpInterceptor } from './http-interceptors';
 import { BrowsePageComponent } from './pages/browse-page/browse-page.component';
 import { AddPageComponent } from './pages/add-page/add-page.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -46,7 +47,12 @@ import { UiService } from './services/ui.service';
       apiKey: 'AIzaSyD9v9Fz3bIPgZ4Ri-B9NS0E7Q7_Bkj-FMg'
     })
   ],
-  providers: [UiService],
+  providers: [UiService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: APIKeyHttpInterceptor,
+            multi: true
+        },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
