@@ -22,12 +22,15 @@ class VenueAPIController extends ControllerCollection {
         $this->vote_api = new VoteAPI();
 
         $this->get("/", array($this, "getVenues"));
+
         $this->options("/add", array($this, "addVenue"));
         $this->post("/add", array($this, "addVenue"));
-        $this->get("/search/{criteria}", array($this, "searchVenues"))
-            ->assert("criteria", ".+");
-        $this->get("/{venue_id}/", array($this, "getVenue"));
 
+        $this->match("/search/{criteria}", array($this, "searchVenues"))
+            ->assert("criteria", ".+")
+            ->method("GET|OPTIONS");
+
+        $this->get("/{venue_id}/", array($this, "getVenue"));
         $this->get("/{venue_id}/report", array($this, "getVenueReports"));
         $this->options("/{venue_id}/report", array($this, "reportVenue"));
         $this->post("/{venue_id}/report", array($this, "reportVenue"));
@@ -45,7 +48,7 @@ class VenueAPIController extends ControllerCollection {
         if ($request->isMethod("options")) {
             return new Response(null, 204);
         }
-        
+
         $json = json_decode($request->getContent());
 
         $name = filter_var($json->name, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW & FILTER_FLAG_ENCODE_HIGH & FILTER_FLAG_ENCODE_AMP);

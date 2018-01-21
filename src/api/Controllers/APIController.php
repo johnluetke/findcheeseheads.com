@@ -27,6 +27,10 @@ class APIController implements ControllerProviderInterface {
         $controllers->mount("/venue", new VenueAPIController($this));
         $controllers->mount("/vote", new VoteAPIController($this));
 
+        $controllers->options("{anything}", function() {
+            return new Response("", 204);
+        });
+
         // This *should* apply to all /api/ requests
         $controllers->before(array($this, "authenticate"));
         $controllers->after(array($this, "cors"));
@@ -59,7 +63,7 @@ class APIController implements ControllerProviderInterface {
 
     public static function cors(Request $request, Response $response) {
         $response->headers->set("Access-Control-Allow-Origin", "*");
-        $response->headers->set("Access-Control-Allow-Headers", "Content-Type");
+        $response->headers->set("Access-Control-Allow-Headers", "Content-Type, X-API-Key");
     }
 
     public function defaultAction() {
