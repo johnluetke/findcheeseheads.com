@@ -47,12 +47,14 @@ import { UiService } from './services/ui.service';
       apiKey: 'AIzaSyD9v9Fz3bIPgZ4Ri-B9NS0E7Q7_Bkj-FMg'
     })
   ],
-  providers: [UiService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: APIKeyHttpInterceptor,
-            multi: true
-        },],
+  providers: [
+    UiService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: APIKeyHttpInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

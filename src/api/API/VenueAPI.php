@@ -31,7 +31,7 @@ class VenueAPI extends API {
     }
 
     public function getVenue($venue_id) {
-        $stmt = $this->db()->prepare("SELECT * FROM Place WHERE id = :place_id AND pending = 0;");
+        $stmt = $this->db()->prepare("SELECT id, name, address, lat, lng FROM Place WHERE id = :place_id AND pending = 0;");
         $stmt->bindParam(":place_id", $venue_id);
         $stmt->execute();
         $venue = $stmt->fetch();
@@ -41,7 +41,7 @@ class VenueAPI extends API {
     public function getVenues() {
         $stmt = $this->db()->prepare("SELECT id, name, address, lat, lng FROM Place WHERE pending = 0 ORDER BY name ASC;");
         $stmt->execute();
-    
+
         while ($row = $stmt->fetch()) {
             $venues[] = array(
                 "id" => $row['id'],
@@ -95,7 +95,7 @@ class VenueAPI extends API {
             }
         }
 
-        $query = $this->db()->query(sprintf("SELECT * FROM Place WHERE name LIKE '%s' OR address LIKE '%s' %s AND pending = 0;", "%".$criteria."%", "%".$criteria."%", $where));
+        $query = $this->db()->query(sprintf("SELECT id, name, address, lat, lng FROM Place WHERE name LIKE '%s' OR address LIKE '%s' %s AND pending = 0;", "%".$criteria."%", "%".$criteria."%", $where));
 
         $results = $query->fetchAll();
 
