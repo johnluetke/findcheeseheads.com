@@ -34,21 +34,22 @@ export class AddPageComponent implements OnInit {
   }
 
   formattedAddress(event) {
-    this.venue.address = event;
     this.isGeocoding = false;
+    console.debug("Received formatted address component (next line)");
+    console.debug(event);
+    if (typeof event === "string") {
+      console.debug("Interpreting as formatted address");
+      this.venue.address = event;
+    }
+    else if (typeof event === "object") {
+      console.debug("Interpreting as coordinates");
+      this.venue.lat = event.lat;
+      this.venue.lng = event.lng;
+      this.mapView();
+    }
+    else {
 
-  }
-
-  formattedLatitude(event) {
-    this.venue.lat = event;
-    this.isGeocoding = false;
-    this.mapView();
-  }
-
-  formattedLongitude(event) {
-    this.venue.lng = event;
-    this.isGeocoding = false;
-    this.mapView();
+    }
   }
 
   startGeocoding(): void {

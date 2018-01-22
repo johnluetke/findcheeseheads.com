@@ -27,8 +27,7 @@
           <div class="form-group col-md-12">
             <label for="place-address" class="control-label">Address</label>
             <textarea class="form-control" name="address" id="place-address" placeholder="1265 Lombardi Ave
-Green Bay, WI 54304" rows="3" required format-address (blur)="startGeocoding()" (formatted-address)="formattedAddress($event)" (latitude)="formattedLatitude($event)" (longitude)="formattedLongitude($event)" [(ngModel)]="venue.address"
-[disabled]="isGeocoding || isSubmitting" #venueAddress="ngModel"></textarea>
+Green Bay, WI 54304" rows="3" required format-address (blur)="startGeocoding()" (formatted-address)="formattedAddress($event)" [(ngModel)]="venue.address" [disabled]="isGeocoding || isSubmitting" #venueAddress="ngModel"></textarea>
             <div [hidden]="!isGeocoding" class="status"><img src="assets/loading.gif" />Geocoding address...</div>
             <div [hidden]="isGeocoding || isSubmitting || venueAddress.untouched || venueAddress.pristine || venueAddress.valid" class="alert alert-danger">Address is required</div>
             <div [hidden]="venueAddress.untouched || !venueAddress.pristine" class="alert alert-warning">Please provide an address</div>

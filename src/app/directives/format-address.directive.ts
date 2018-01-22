@@ -8,15 +8,11 @@ declare var google: any;
 })
 export class FormatAddressDirective {
 
-  @Output('formatted-address') addr: EventEmitter<string>;
-  @Output('latitude') lat: EventEmitter<number>;
-  @Output('longitude') lng: EventEmitter<number>;
+  @Output('formatted-address') emitter: EventEmitter<any>;
   geocoder: any;
 
   constructor(private el: ElementRef, private cdr: ChangeDetectorRef) {
-    this.addr = new EventEmitter<string>();
-    this.lat = new EventEmitter<number>();
-    this.lng = new EventEmitter<number>();
+    this.emitter = new EventEmitter<any>();
   }
 
   ngOnInit() {
@@ -38,20 +34,22 @@ export class FormatAddressDirective {
     this.geocoder.geocode({'address': address }, function(results, status) {
       console.debug("Geocode complete: " + status);
       if (status == google.maps.GeocoderStatus.OK) {
+        console.debug(results[0]);
         let addr = results[0].formatted_address;
         let latlng = results[0].geometry.location;
 
         if (addr !== null) {
           let numCommas = addr.match(/,/g).length;
           if (numCommas >= 3) {
+              console.debug("Reformatting...");
               addr = addr.replace(/, /, "\n");
               addr = addr.replace(/, USA$/, "");
+              console.debug(addr);
           }
         }
 
-        self.addr.emit(addr);
-        self.lat.emit(latlng.lat());
-        self.lng.emit(latlng.lng());
+        self.emitter.emit(addr);
+        self.emitter.emit({lat: latlng.lat(), lng: latlng.lng()});
         self.cdr.detectChanges();
       }
     });
