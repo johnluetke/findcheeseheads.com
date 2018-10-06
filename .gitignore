@@ -6,6 +6,7 @@ src/environments/*
 /build
 /dist
 /tmp
+/out
 /out-tsc
 /src/api/vendor
 

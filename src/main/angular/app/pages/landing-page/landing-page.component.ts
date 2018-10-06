@@ -17,8 +17,8 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     this.search = new SearchCriteria();
-    this.http.get<any>(environment.apiUrl + '/country').subscribe(data => {
-      this.search.country = data.country;
+    this.http.get<any>(environment.apiUrl + '/country').subscribe(country => {
+      this.search.country = country;
     });
   }
 

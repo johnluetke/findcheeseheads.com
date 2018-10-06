@@ -23,7 +23,7 @@ export interface IVenue {
 }
 
 export interface IVenueReportSubmission {
-  id: number;
+  venueId: number;
   reason: string;
   other: string;
 }
@@ -86,7 +86,7 @@ export class Venue implements IVenue {
 }
 
 export class VenueReportSubmission implements IVenueReportSubmission {
-  id: number = null;
+  venueId: number = null;
   reason: string = null;
   other: string = null;
 }

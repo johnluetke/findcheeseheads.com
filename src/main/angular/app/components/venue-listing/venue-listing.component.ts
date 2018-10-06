@@ -15,6 +15,7 @@ export class VenueListingComponent implements OnInit {
   @Input() venue;
   @Input("allow-report") allowReport = false;
 
+  reportReasons: any[];
   reportModalCloseResult: string;
   report: VenueReportSubmission;
   reportMessage: string;
@@ -27,12 +28,10 @@ export class VenueListingComponent implements OnInit {
   }
 
   openModal(content) {
-    this.modalService.open(content).result.then((result) => {
-      this.reportModalCloseResult = `Closed with: ${result}`;
-      this.report = new VenueReportSubmission();
-    }, (reason) => {
-      this.reportModalCloseResult = `Dismissed with: ${reason}`;
-      this.report = new VenueReportSubmission();
+    this.modalService.open(content).result.then(report => {
+      this.http.post<any>(`${environment.apiUrl}/venue/${this.venue.id}/report`, report).subscribe(result => {
+        this.reportMessage = result.message;
+      })
     });
     return false;
   }
@@ -49,12 +48,12 @@ export class VenueListingComponent implements OnInit {
   }
 
   submitReport(): void {
-    this.report.id = this.venue.id;
+    this.report.venueId = this.venue.id;
     console.log(this.report);
-    this.http.post<any>(environment.apiUrl + '/venue/' + this.venue.id + '/report',
+    /*this.http.post<any>(environment.apiUrl + '/venue/' + this.venue.id + '/report',
                    this.report).subscribe(data => {
       this.reportMessage = data.message;
-    });
+    });*/
   }
 
 }

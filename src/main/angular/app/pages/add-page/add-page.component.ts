@@ -65,7 +65,7 @@ export class AddPageComponent implements OnInit {
         this.venue.lat,
         this.venue.lng);
 
-      this.http.post<any>(environment.apiUrl + '/venue/add', this.venue).subscribe(data => {
+      this.http.post<any>(environment.apiUrl + '/venue', this.venue).subscribe(data => {
         this.success = true;
         this.message = data.message;
       },

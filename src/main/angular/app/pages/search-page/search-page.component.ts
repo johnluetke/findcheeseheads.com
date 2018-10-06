@@ -31,8 +31,8 @@ export class SearchPageComponent implements OnInit {
 
       // if no country provided, detect it
       if (this.data.search.country.code == undefined) {
-        this.http.get<any>(environment.apiUrl + '/country').subscribe(data => {
-          this.data.search.country = data.country;
+        this.http.get<any>(environment.apiUrl + '/country').subscribe(country => {
+          this.data.search.country = country;
         });
       }
 
@@ -41,8 +41,8 @@ export class SearchPageComponent implements OnInit {
       }
     });
 
-    this.http.get<any>(environment.apiUrl + '/countries').subscribe(data => {
-      this.data.countries = data.countries;
+    this.http.get<any>(environment.apiUrl + '/countries').subscribe(countries => {
+      this.data.countries = countries;
     });
   }
 
@@ -67,12 +67,12 @@ export class SearchPageComponent implements OnInit {
       self.data.results.venues.forEach(function(venue: Venue) {
         self.http.get<any>(environment.apiUrl + '/venue/' + venue.id + '/report').subscribe(reports => {
           let rpts: Report[] = [];
-          for (let report in reports.reports) {
+          reports.forEach(report => {
             let rpt = new Report();
-            rpt.type = report;
-            rpt.count = reports.reports[report];
+            rpt.type = report.reason;
+            rpt.count = report.count;
             rpts.push(rpt);
-          }
+          });
           venue.reports = rpts;
         },
         error => {
@@ -92,11 +92,11 @@ export class SearchPageComponent implements OnInit {
 
   reportVenue($event: any, venueId: number): void {
     $event.preventDefault();
-    if (venueId == this.data.report.id) {
-      this.data.report.id = null
+    if (venueId == this.data.report.venueId) {
+      this.data.report.venueId = null
     }
     else {
-      this.data.report.id = venueId;
+      this.data.report.venueId = venueId;
     }
   }
 
