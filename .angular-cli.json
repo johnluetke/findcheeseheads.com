@@ -5,8 +5,8 @@
   },
   "apps": [
     {
-      "root": "src",
-      "outDir": "dist",
+      "root": "src/main/angular",
+      "outDir": "build/web",
       "assets": [
         ".htaccess",
         "assets",
@@ -21,7 +21,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "fc",
       "styles": [
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../../../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "scss/styles.scss"
       ],
       "scripts": [],
