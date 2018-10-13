@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Coordinates, Venue } from '../../model/venue';
 import { environment } from '../../../environments/environment';
 
@@ -19,7 +20,9 @@ export class AddPageComponent implements OnInit {
   success: boolean;
   venue: Venue;
 
-  constructor(private http: HttpClient) {
+  addVenueForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     this.isSubmitting = false;
     this.isGeocoding = false;
     this.mapLat = 41.030;
@@ -28,6 +31,13 @@ export class AddPageComponent implements OnInit {
     this.message = "";
     this.success = null;
     this.venue = new Venue();
+
+    this.addVenueForm = this.formBuilder.group({
+        name: [null, [Validators.required, Validators.minLength(3)]],
+        address: [],
+        lat: [],
+        lng: [],
+    });
   }
 
   ngOnInit() {
@@ -39,12 +49,12 @@ export class AddPageComponent implements OnInit {
     console.debug(event);
     if (typeof event === "string") {
       console.debug("Interpreting as formatted address");
-      this.venue.address = event;
+      this.addVenueForm.get('address').setValue(event);
     }
     else if (typeof event === "object") {
       console.debug("Interpreting as coordinates");
-      this.venue.lat = event.lat;
-      this.venue.lng = event.lng;
+      this.addVenueForm.get('lat').setValue(event.lat);
+      this.addVenueForm.get('lng').setValue(event.lng);
       this.mapView();
     }
     else {
@@ -58,9 +68,10 @@ export class AddPageComponent implements OnInit {
     }
   }
 
-  submitVenue($event): void {
+  submitVenue(): void {
     this.isSubmitting = true;
-    if (this.venue.name && this.venue.address) {
+    if (this.addVenueForm.valid) {
+      this.venue = this.addVenueForm.value;
       this.venue.location = new Coordinates(
         this.venue.lat,
         this.venue.lng);

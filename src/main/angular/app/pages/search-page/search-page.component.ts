@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Country, SearchCriteria, SearchResults } from '../../model/search';
 import { Report, VenueReportSubmission, Venue } from '../../model/venue';
@@ -18,54 +19,65 @@ export class SearchPageComponent implements OnInit {
 
   private routeSubscription: any;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  cities: string[] = [];
+  countries: Country[] = [];
+  venues: Venue[] = [];
+
+  searchForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.data = new Model();
     this.isSearching = false;
     this.errorMessage = "";
+
+    this.searchForm = this.formBuilder.group({
+        country: [null, [Validators.required], []],
+        criteria: [null, [Validators.required], []]
+    });
   }
 
   ngOnInit() {
     this.routeSubscription = this.route.params.subscribe(params => {
-      this.data.search.query = params['query'];
-      this.data.search.country.code = params['country'];
+      this.searchForm.patchValue({country: params['country']});
+      this.searchForm.patchValue({criteria: params['query']});
 
       // if no country provided, detect it
-      if (this.data.search.country.code == undefined) {
+      if (!this.searchForm.value.country) {
         this.http.get<any>(environment.apiUrl + '/country').subscribe(country => {
-          this.data.search.country = country;
+          this.searchForm.patchValue({country: country.code});
         });
       }
 
-      if (this.data.search.hasCriteria()) {
+      if (this.searchForm.valid) {
         this.performSearch();
       }
     });
 
     this.http.get<any>(environment.apiUrl + '/countries').subscribe(countries => {
-      this.data.countries = countries;
+      this.countries = countries;
     });
   }
 
   search(): void {
-    this.router.navigate(['search', this.data.search.country.code, this.data.search.query])
+    this.router.navigate(['search', this.searchForm.value.country, this.searchForm.value.criteria])
   }
 
   performSearch() : void {
     let self = this;
     this.isSearching = true;
-    this.data.results = new SearchResults();
-    this.http.get<any>(environment.apiUrl + '/venue/search/' + this.data.search.country.code + '/' + this.data.search.query).subscribe(data => {
+    this.venues = [];
+    this.http.get<any>(`${environment.apiUrl}/venue/search/${this.searchForm.value.country}/${this.searchForm.value.criteria}`).subscribe(data => {
       if (data.cities == null) {
         data.cities = [];
       }
 
       self.data.results.query = self.data.search.query;
       self.data.results.country = self.data.search.country;
-      self.data.results.cities = data.cities;
-      self.data.results.venues = Venue.createFromArray(data.results);
+      self.cities = data.cities;
+      self.venues = Venue.createFromArray(data.results);
 
-      self.data.results.venues.forEach(function(venue: Venue) {
-        self.http.get<any>(environment.apiUrl + '/venue/' + venue.id + '/report').subscribe(reports => {
+      self.venues.forEach(function(venue: Venue) {
+        self.http.get<any>(`${environment.apiUrl}/venue/${venue.id}/report`).subscribe(reports => {
           let rpts: Report[] = [];
           reports.forEach(report => {
             let rpt = new Report();
@@ -82,8 +94,8 @@ export class SearchPageComponent implements OnInit {
     },
     error => {
       self.isSearching = false;
-      self.errorMessage = "An error occured retrieving search results. Please try again later.";
-      self.data.results = new SearchResults();
+      self.errorMessage = "An error occurred retrieving search results. Please try again later.";
+      self.venues = [];
     },
     () => {
       self.isSearching = false;
@@ -106,14 +118,11 @@ export class SearchPageComponent implements OnInit {
 }
 
 export class Model {
-  countries: Country[];
   search: SearchCriteria;
   report: VenueReportSubmission;
   results: SearchResults;
 
   constructor() {
-    this.countries = [];
-
     this.search = new SearchCriteria();
     this.report = new VenueReportSubmission();
     this.results = new SearchResults();
