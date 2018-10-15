@@ -1,3 +1,7 @@
+info:
+  app:
+    name: findcheeseheads.com
+
 logging:
   level:
     org.springframework.security: DEBUG
