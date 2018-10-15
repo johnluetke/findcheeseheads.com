@@ -1,0 +1,7 @@
+logging:
+  level:
+    org.springframework.security: INFO
+
+spring:
+  datasource:
+    url: jdbc:mysql://172.31.19.104:3306/FindCheeseheads?verifyServerCertificate=false&useSSL=false&requireSSL=false

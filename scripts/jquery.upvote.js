@@ -1,1 +1,0 @@
-../lib/jquery-upvote/lib/jquery.upvote.js

@@ -1,0 +1,149 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.5.RELEASE'
+		angularDir = "$projectDir/src/main/angular"
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://plugins.gradle.org/m2/" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
+		classpath("jp.classmethod.aws:gradle-aws-plugin:0.30")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.moowork.node"
+apply plugin: 'jp.classmethod.aws'
+apply plugin: 'jp.classmethod.aws.beanstalk'
+
+group = 'com.findcheeseheads'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile('com.mashape.unirest:unirest-java:1.4.9')
+	compile('javax.xml.bind:jaxb-api:2.2.11')
+	compile('com.sun.xml.bind:jaxb-core:2.2.11')
+	compile('com.sun.xml.bind:jaxb-impl:2.2.11')
+	compile('javax.activation:activation:1.1.1')
+
+    // Use MySQL Connector-J
+    compile 'mysql:mysql-connector-java'
+
+	implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+	//implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('org.springframework.boot:spring-boot-starter-actuator')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.springframework.security:spring-security-test')
+}
+
+aws {
+	profileName = 'default'
+	region = 'us-west-2'
+}
+
+beanstalk {
+	appName "FindCheeseheads.com"
+	appDesc ""
+
+	version {
+		label = "${project.name}-${version}"
+		description = "${project.name} v${version}"
+		bucket = "elasticbeanstalk-${aws.region}-${aws.accountId}"
+		key = "${beanstalk.appName}/${project.name}-${project.version}.zip"
+	}
+
+//	configurationTemplates {
+//		production {
+//			optionSettings = file("src/main/config/production.json")
+//			solutionStackName = "64bit Amazon Linux 2015.03 v1.4.0 running Docker 1.6.0"
+//		}
+//		development {
+//			optionSettings = file("src/main/config/development.json")
+//			solutionStackName = "64bit Amazon Linux 2015.03 v1.4.0 running Docker 1.6.0"
+//		}
+//	}
+
+	environment {
+		envName = "findcheeseheads-springboot-prod"
+//		templateName = "development"
+//		versionLabel = "05-beanstalk-${versionDesc}"
+//		tags = [
+//				VERSION: "${versionDesc}".toString(),
+//				GROUP: "Eng"
+//		]
+	}
+}
+
+processResources {
+	dependsOn "copyAngular"
+}
+
+springBoot {
+	buildInfo()
+}
+
+
+task buildAngular(type:Exec) {
+	dependsOn "npmInstall"
+	workingDir "${angularDir}"
+	inputs.dir "${angularDir}"
+	// Add task to the standard build group
+	group = BasePlugin.BUILD_GROUP
+	// ng doesn't exist as a file in windows -> ng.cmd
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "ng.cmd", "build", "--prod"
+	} else {
+		commandLine "ng", "build", "--prod"
+	}
+}
+
+task copyAngular(type: Copy) {
+	dependsOn "buildAngular"
+	doFirst {
+		mkdir "${buildDir}/resources/main/static/"
+	}
+
+	from "${buildDir}/web"
+	into "${buildDir}/resources/main/static/"
+}
+
+task createEbBundleResources(type: Copy) {
+	from "src/main/eb"
+	into "build/eb-bundle"
+}
+
+task createEbBundle(type: Zip, dependsOn: [bootJar, createEbBundleResources]) {
+	archiveName = jar.archiveName.substring(0, jar.archiveName.length() - 4) + "-eb.zip"
+	from "build/eb-bundle"
+	from (jar.archivePath) {
+		rename { 'application.jar' }
+	}
+}
+
+task uploadEbBundle(type: jp.classmethod.aws.gradle.s3.AmazonS3FileUploadTask, dependsOn: createEbBundle) {
+	group "AWS"
+	description "Upload ${project.name} application bundle file to S3."
+
+	bucketName "elasticbeanstalk-${aws.region}-${aws.accountId}"
+	key "${beanstalk.appName}/${project.name}-${project.version}.zip"
+	file project.createEbBundle.archivePath
+	overwrite project.version.endsWith("-SNAPSHOT")
+
+	doLast {
+		println("Uploaded ${beanstalk.version.key}")
+	}
+}
+
+awsEbCreateApplicationVersion.dependsOn uploadEbBundle

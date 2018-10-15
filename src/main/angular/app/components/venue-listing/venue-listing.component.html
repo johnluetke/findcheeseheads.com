@@ -1,0 +1,51 @@
+<div class="listing">
+  <div class="info">
+    <h2>{{ venue.name | decode }}</h2>
+    <span class="oi oi-warning" aria-hidden="true" *ngIf="venue.getReportCount() > 0" [ngbTooltip]="reportTooltip" tooltip-placement="right"></span>
+
+    <ng-template #reportTooltip>
+      <div class="report-tooltip">
+        There are <span [innerHtml]="venue.getReportCount()"></span> open reports for {{ venue.name }}:<br/>
+        <ul>
+          <li *ngFor="let report of venue.reports">{{ reportType(report.type) }}: {{ report.count }}</li>
+        </ul>
+      </div>
+    </ng-template>
+
+    <ng-template #reportModal let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Report Issue</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Dismiss Button')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="report_reason">{{ venue.name | decode }} is</label>
+          <select name="report_reason" class="form-control" [(ngModel)]="report.reason">
+            <option value="closed">permanently closed</option>
+            <option value="not_packer_bar">not Cheesehead friendly</option>
+            <option value="other_reason">(other reason)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control input-md ng-hidden" name="other" placeholder="enter other reason" *ngIf="report.reason == 'other_reason'" [(ngModel)]="report.other" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="d(false)">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="c(report); submitReport()">Submit Report</button>
+      </div>
+    </ng-template>
+
+    <address [innerHtml]="venue.address | nl2br"></address>
+  </div>
+
+  <div *ngIf="reportMessage" class="alert alert-success">
+    {{ reportMessage }}
+  </div>
+  <ul class="actions small list-inline" *ngIf="allowReport">
+    <li class="report list-inline-item"><a href="./" (click)="openModal(reportModal);">Report Issue</a></li>
+  </ul>
+
+</div>

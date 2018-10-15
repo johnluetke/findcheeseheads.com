@@ -1,0 +1,52 @@
+<div class="container">
+    <h2 class="page-header">Search</h2>
+</div>
+
+<div class="container">
+  <form [formGroup]="searchForm" (ngSubmit)="search()">
+    <div class="row">
+      <div class="col-sm-12 col-md-7">
+        <input type="text" class="form-control" formControlName="criteria" placeholder="Search by name, city, or postal code" />
+      </div>
+      <div class="col-sm-12 col-md-3">
+        <select class="form-control" formControlName="country">
+          <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
+        </select>
+      </div>
+      <div class="col-sm-12 col-md-2">
+        <input type="button" class="btn btn-primary form-control" value="Search" [disabled]="searchForm.invalid" (click)="search()" />
+      </div>
+    </div>
+  </form>
+
+  <div class="container" *ngIf="cities.length > 0">
+      <p class="row">Results include venues in {{ cities | prettyList }}.</p>
+  </div>
+</div>
+
+<div class="container">
+  <span *ngFor="let venue of venues">
+    <fc-venue-listing [venue]="venue" [allow-report]=true></fc-venue-listing>
+  </span>
+
+  <div *ngIf="errorMessage.length > 0" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="data.search.hasCriteria() && !isSearching && venues.length == 0 && errorMessage.length == 0">
+    <h2>No bars were found :-(</h2>
+    <div class="center-block text-center">
+      <a routerLink="/add">
+        <button type="button" class="btn btn-secondary">Why not add one?</button>
+      </a>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="isSearching">
+    <img src="assets/loading.gif" />
+  </div>
+
+  <div *ngIf="searchForm.invalid && venues.length == 0">
+    <h2>Search for a venue above.</h2>
+  </div>
+</div>
