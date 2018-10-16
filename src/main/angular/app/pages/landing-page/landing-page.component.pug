@@ -1,0 +1,24 @@
+.landing-page
+  .jumbotron
+    .container
+      h1.text-nowrap([fittext]) 
+        | Find 
+        span.d-block.d-sm-inline Cheeseheads
+        span.d-none.d-md-inline-block Near You
+      form#search([formGroup]="searchForm", (ngSubmit)="doSearch()")
+        .input-group.has-feedback
+          input.form-control.input-lg(type="text", formControlName="criteria", placeholder="Search by postal code or city")
+          input(type="hidden" formControlName="country")
+          button(class="input-group-addon", (click)="doSearch()")
+            i.oi.oi-magnifying-glass.form-control-feedback
+      p.lead.text-center Not sure which local watering holes will welcome you on gameday? Find out above.
+
+  footer.sticky-footer
+    .container.small
+      p.pull-left &copy; {{ copyrightYear() }} FindCheeseheads.com
+      p.pull-right A product of
+        a(href="http://www.reddit.com/r/GreenBayPackers", target="_blank") /r/GreenBayPackers
+        span  and&nbsp;
+        a(href="http://www.reddit.com/r/FindCheeseheads", target="_blank") /r/FindCheeseheads
+      p.pull-left(style="clear: left;")
+      p.pull-right(style="clear: right;") Image Credit AP/Mike Roemer
