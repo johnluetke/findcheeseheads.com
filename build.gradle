@@ -1,56 +1,51 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.5.RELEASE'
 		angularDir = "$projectDir/src/main/angular"
-	}
-	repositories {
-		mavenCentral()
-		maven { url "https://plugins.gradle.org/m2/" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
-		classpath("jp.classmethod.aws:gradle-aws-plugin:0.30")
 	}
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: "com.moowork.node"
-apply plugin: 'jp.classmethod.aws'
-apply plugin: 'jp.classmethod.aws.beanstalk'
+plugins {
+	id "com.gorylenko.gradle-git-properties" version "1.5.2"
+	id "com.moowork.node" version "1.2.0"
+	id "com.palantir.git-version" version "0.11.0"
+	id "jp.classmethod.aws" version "0.38"
+	id "org.ajoberstar.grgit" version "2.3.0"
+	id "org.springframework.boot" version "2.0.5.RELEASE"
+}
 
-group = 'com.findcheeseheads'
-version = '0.0.1-SNAPSHOT'
+apply plugin: "java"
+apply plugin: "com.moowork.node"
+apply plugin: "io.spring.dependency-management"
+apply plugin: "jp.classmethod.aws.beanstalk"
+apply plugin: "jp.classmethod.aws"
+
+group = "com.findcheeseheads"
+version gitVersion()
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	compile('com.mashape.unirest:unirest-java:1.4.9')
-	compile('javax.xml.bind:jaxb-api:2.2.11')
-	compile('com.sun.xml.bind:jaxb-core:2.2.11')
-	compile('com.sun.xml.bind:jaxb-impl:2.2.11')
-	compile('javax.activation:activation:1.1.1')
+	implementation("com.mashape.unirest:unirest-java:1.4.9")
+	implementation("com.sun.xml.bind:jaxb-core:2.2.11")
+	implementation("com.sun.xml.bind:jaxb-impl:2.2.11")
+	implementation("javax.activation:activation:1.1.1")
+	implementation("javax.xml.bind:jaxb-api:2.2.11")
+    implementation("mysql:mysql-connector-java")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-    // Use MySQL Connector-J
-    compile 'mysql:mysql-connector-java'
-
-	implementation('org.springframework.boot:spring-boot-starter-web')
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-	//implementation('org.springframework.boot:spring-boot-starter-security')
-	implementation('org.springframework.boot:spring-boot-starter-actuator')
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	testImplementation('org.springframework.security:spring-security-test')
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.security:spring-security-test")
 }
 
 aws {
-	profileName = 'default'
-	region = 'us-west-2'
+	profileName = "default"
+	region = "us-west-2"
 }
 
 beanstalk {
@@ -64,26 +59,15 @@ beanstalk {
 		key = "${beanstalk.appName}/${project.name}-${project.version}.zip"
 	}
 
-//	configurationTemplates {
-//		production {
-//			optionSettings = file("src/main/config/production.json")
-//			solutionStackName = "64bit Amazon Linux 2015.03 v1.4.0 running Docker 1.6.0"
-//		}
-//		development {
-//			optionSettings = file("src/main/config/development.json")
-//			solutionStackName = "64bit Amazon Linux 2015.03 v1.4.0 running Docker 1.6.0"
-//		}
-//	}
-
 	environment {
-		envName = "findcheeseheads-springboot-prod"
-//		templateName = "development"
-//		versionLabel = "05-beanstalk-${versionDesc}"
-//		tags = [
-//				VERSION: "${versionDesc}".toString(),
-//				GROUP: "Eng"
-//		]
+		envName = "findcheeseheads-prod"
 	}
+}
+
+gitProperties {
+	dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+	dateFormatTimeZone = "PST"
+	gitPropertiesDir = "${project.rootDir}/src/main/resources"
 }
 
 processResources {
@@ -99,9 +83,10 @@ task buildAngular(type:Exec) {
 	dependsOn "npmInstall"
 	workingDir "${angularDir}"
 	inputs.dir "${angularDir}"
+	outputs.dir "${buildDir}/web"
 	// Add task to the standard build group
 	group = BasePlugin.BUILD_GROUP
-	// ng doesn't exist as a file in windows -> ng.cmd
+	// ng doesn"t exist as a file in windows -> ng.cmd
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
 		commandLine "ng.cmd", "build", "--prod"
 	} else {
@@ -128,7 +113,7 @@ task createEbBundle(type: Zip, dependsOn: [bootJar, createEbBundleResources]) {
 	archiveName = jar.archiveName.substring(0, jar.archiveName.length() - 4) + "-eb.zip"
 	from "build/eb-bundle"
 	from (jar.archivePath) {
-		rename { 'application.jar' }
+		rename { "application.jar" }
 	}
 }
 

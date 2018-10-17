@@ -1,0 +1,17 @@
+nav.navbar.navbar-dark.navbar-expand-sm
+  .container
+    .navbar-header
+      a.navbar-brand(routerLink="/") Find Cheeseheads
+
+    .ml-auto
+      button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbar-collapsable", aria-controls="navbar-collapsable", aria-expanded="false", aria-label="Toggle navigation", (click)="isCollapsed = !isCollapsed")
+        .navbar-toggler-icon
+
+    .navbar-collapse.collapse.my-2.my-sm-0#navbar-collapsable([ngbCollapse]="isCollapsed")
+      ul.navbar-nav.ml-auto
+        li.nav-item(routerLinkActive="active")
+          a.nav-link(routerLink="/browse") Browse
+        li.nav-item(routerLinkActive="active")
+          a.nav-link(routerLink="/search") Search
+        li.nav-item(routerLinkActive="active")
+          a.nav-link(routerLink="/add") Add

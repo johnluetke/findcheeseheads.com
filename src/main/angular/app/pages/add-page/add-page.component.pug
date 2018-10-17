@@ -1,0 +1,46 @@
+.container
+  h2.page-header Add a Venue
+
+.container
+  p
+    strong Find Cheeseheads
+    span  is a community-driven resource. As such, we rely on the community to share Packer bars and gathering spots throughout the world.
+  p All venues found here have been submitted 
+    strong by Cheeseheads, for Cheeseheads.
+    span  Please feel free to share your local Packer bar with others by adding it to our directory.
+
+.container
+  .alert(role="alert", [innerHtml]="message", *ngIf="message.length > 0", [ngClass]="{'alert-success': success, 'alert-danger': !success}")
+  form#add-place.form-horizontal(autocomplete="off", [formGroup]="addVenueForm", (ngSubmit)="submitVenue()")
+    .row
+      .col-md-6
+        .row
+          .form-group.col-md-12
+            label.control-label(for="place-name") Venue Name
+            input.form-control#place-name(type="text", formControlName="name", placeholder="Bart's Bar and Grill")
+            div.alert.alert-warning([hidden]="addVenueForm.get('name').untouched || !addVenueForm.get('name').pristine") Please provide a name for the venue
+            div.alert.alert-danger([hidden]="isSubmitting || addVenueForm.get('name').untouched || addVenueForm.get('name').pristine || addVenueForm.get('name').valid") Venue Name should be at least 3 characters
+
+        .row
+          .form-group.col-md-12
+            label(for="place-address", class="control-label") Address
+            textarea.form-control#place-address(formControlName="address", placeholder="1265 Lombardi Ave\nGreen Bay, WI 54304", rows="3", required, format-address, (blur)="startGeocoding()", (formatted-address)="formattedAddress($event)")
+            .status([hidden]="!isGeocoding")
+              img(src="assets/loading.gif")
+              span Geocoding address...
+            .alert.alert-danger([hidden]="isGeocoding || isSubmitting || addVenueForm.get('address').untouched || addVenueForm.get('address').pristine || addVenueForm.get('address').valid") Address is required
+            .alert.alert-warning([hidden]="addVenueForm.get('address').untouched || !addVenueForm.get('address').pristine") Please provide an address
+            input(type="hidden", formControlName="lat")
+            input(type="hidden", formControlName="lng")
+
+      .col-md-6
+        .form-group
+          agm-map.map([latitude]="mapLat", [longitude]="mapLng", [zoom]="mapZoom", [streetViewControl]="false")
+            agm-marker([latitude]="venue.lat", [longitude]="venue.lng")
+
+    .row
+      .col-sm-12
+        .form-group
+          button.btn.btn-primary([disabled]="addVenueForm.invalid", (click)="submitVenue()") Submit for Review
+          #review-text
+            em.small Our staff will approve your submission after review. Reviews may take up to two days.

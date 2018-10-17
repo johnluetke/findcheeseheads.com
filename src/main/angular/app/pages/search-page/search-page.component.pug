@@ -1,0 +1,34 @@
+.container
+    h2.page-header Search
+
+.container
+  form([formGroup]="searchForm", (ngSubmit)="search()")
+    .row
+      .col-sm-12.col-md-7
+        input.form-control(type="text", formControlName="criteria" placeholder="Search by name, city, or postal code")
+      .col-sm-12.col-md-3
+        select.form-control(formControlName="country")
+          option(*ngFor="let country of countries", [value]="country.code") {{ country.name }}
+      .col-sm-12.col-md-2
+        input.btn.btn-primary.form-control(type="button", value="Search", [disabled]="searchForm.invalid", (click)="search()")
+
+  .container(*ngIf="cities.length > 0")
+      p.row Results include venues in {{ cities | prettyList }}.
+
+.container
+  ng-container(*ngFor="let venue of venues")
+    fc-venue-listing([venue]="venue", [allow-report]="true")
+
+  .alert.alert-danger(*ngIf="errorMessage.length > 0") {{ errorMessage }}
+
+  div(*ngIf="data.search.hasCriteria() && !isSearching && venues.length == 0 && errorMessage.length == 0")
+    h2 No bars were found :-(
+    .center-block.text-center
+      a(routerLink="/add")
+        button.btn.btn-secondary(type="button") Why not add one?
+
+  .loading(*ngIf="isSearching")
+    img(src="assets/loading.gif")
+
+  div(*ngIf="searchForm.invalid && venues.length == 0")
+    h2 Search for a venue above.

@@ -1,0 +1,8 @@
+.container
+  h2.page-header Browse
+
+.container
+  .loading(*ngIf="venues.length <= 0")
+    img(src="assets/loading.gif")
+
+  fc-venue-listing(*ngFor="let venue of venues", [venue]="venue", [allow-report]="false")
