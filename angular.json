@@ -1,0 +1,157 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "findcheeseheads": {
+      "root": "src/main",
+      "sourceRoot": "src/main/angular",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "build/web",
+            "index": "src/main/angular/index.html",
+            "main": "src/main/angular/main.ts",
+            "tsConfig": "src/main/angular/tsconfig.app.json",
+            "polyfills": "src/main/angular/polyfills.ts",
+            "assets": [
+              "src/main/angular/.htaccess",
+              "src/main/angular/assets",
+              "src/main/angular/favicon.ico",
+              "src/main/angular/api"
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/main/angular/scss/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/main/angular/environments/environment.ts",
+                  "with": "src/main/angular/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "findcheeseheads:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "findcheeseheads:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "findcheeseheads:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/main/angular/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/main/angular/polyfills.ts",
+            "tsConfig": "src/main/angular/tsconfig.spec.json",
+            "scripts": [],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/main/angular/scss/styles.scss"
+            ],
+            "assets": [
+              "src/main/angular/.htaccess",
+              "src/main/angular/assets",
+              "src/main/angular/favicon.ico",
+              "src/main/angular/api"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "findcheeseheads-e2e": {
+      "root": "src/main/e2e",
+      "sourceRoot": "src/main/e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "findcheeseheads:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "findcheeseheads",
+  "schematics": {
+    "@schematics/angular:class": {
+      "spec": false
+    },
+    "@schematics/angular:component": {
+      "inlineStyle": false,
+      "inlineTemplate": false,
+      "spec": true,
+      "prefix": "fc",
+      "styleext": "scss"
+    },
+    "@schematics/angular:directive": {
+      "spec": true,
+      "prefix": "fc"
+    },
+    "@schematics/angular:guard": {
+      "spec": true
+    },
+    "@schematics/angular:module": {
+      "spec": true
+    },
+    "@schematics/angular:pipe": {
+      "spec": true
+    },
+    "@schematics/angular:service": {
+      "spec": true
+    }
+  }
+}
