@@ -1,0 +1,40 @@
+rules:
+  curly: true
+  eofline: true
+  import-spacing: true
+  indent: 
+    - true
+    - spaces
+    - 2
+  max-line-length:
+    options:
+      - 120
+  member-access: 
+    - true
+    - check-accessor
+    - check-constructor
+  member-ordering:
+    - true
+    - order: fields-first
+  no-debugger: true
+  no-duplicate-imports: true
+  no-empty: true
+  no-eval: true
+  no-inferrable-types: true
+  no-shadowed-variable: true
+  #no-unused-variable: true
+  ordered-imports:
+    - true
+    - options:
+        grouped-imports: true
+        import-sources-order: lowercase-last
+        named-imports-order: lowercase-last
+  prefer-const: true
+  semicolon: 
+    - true
+    - always
+  space-before-function-paren: 
+    - true
+    - never
+  trailing-comma: true
+  whitespace: true

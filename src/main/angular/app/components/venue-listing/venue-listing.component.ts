@@ -36,18 +36,7 @@ export class VenueListingComponent implements OnInit {
     return false;
   }
 
-  reportType(report: string): string {
-    switch (report) {
-      case "closed":
-        return "Permanently closed";
-      case "not_packer_bar":
-        return "Not Cheesehead friendly";
-      default:
-        return report;
-    }
-  }
-
-  submitReport(): void {
+  public submitReport(): void {
     this.report.venueId = this.venue.id;
     console.log(this.report);
     /*this.http.post<any>(environment.apiUrl + '/venue/' + this.venue.id + '/report',

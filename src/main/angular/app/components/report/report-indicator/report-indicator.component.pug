@@ -1,0 +1,11 @@
+doctype html
+span.alert.alert-danger(*ngIf="reports.length > 0")
+  .oi.oi-warning([ngbTooltip]="reportTooltip",
+      tooltipClass="report-tooltip",
+      placement="right")
+
+ng-template(#reportTooltip)
+  .report-tooltip There are 
+    span {{ reports.length || '?' }} open reports for {{ venue.name }}:
+    ul
+      li(*ngFor="let report of reports") {{ reportType(report.reason) }}: {{ report.count }}

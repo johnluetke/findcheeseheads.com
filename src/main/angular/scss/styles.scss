@@ -41,3 +41,17 @@ h2 {
 .pull-right {
   float: right;
 }
+
+.report-tooltip {
+  text-align: left;
+  width: 300px;
+
+  ul {
+    padding-top: 1rem;
+    padding-left: 2rem;
+  }
+
+  .tooltip-inner {
+    max-width: unset;
+  }
+}

@@ -1,16 +1,9 @@
 .listing
   .info
     h2 {{ venue.name | decode }}
-    .oi.oi-warning(*ngIf="venue.getReportCount() > 0", [ngbTooltip]="reportTooltip", tooltip-placement="right")
-
-    ng-template(exportAs="#reportTooltip")
-      .report-tooltip There are 
-        span([innerHtml]="venue.getReportCount()") 0
-        |  open reports for {{ venue.name }}:
-        br
-        ul
-          li(*ngFor="let report of venue.reports") {{ reportType(report.type) }}: {{ report.count }}
-
+    fc-report-indicator([venue]="venue")
+    address([innerHtml]="venue.address | nl2br")
+   
     ng-template(exportAs="#reportModal", let-c="close", let-d="dismiss")
       .modal-header
         h4.modal-title Report Issue
@@ -28,8 +21,6 @@
       .modal-footer
         button.btn.btn-outline-dark(type="button", (click)="d(false)") Cancel
         button.btn.btn-primary(type="button", (click)="c(report); submitReport()") Submit Report
-
-    address([innerHtml]="venue.address | nl2br")
 
   .alert.alert-success(*ngIf="reportMessage") {{ reportMessage }}
 

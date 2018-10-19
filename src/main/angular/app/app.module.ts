@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HeaderComponent } from './components/header/header.component';
+import { ReportIndicatorComponent } from './components/report/report-indicator/report-indicator.component';
 import { VenueListingComponent } from './components/venue-listing/venue-listing.component';
 import { FormatAddressDirective } from './directives/format-address.directive';
 import { DecodePipe } from './filters/decode.pipe';
@@ -21,6 +22,7 @@ import { AddPageComponent } from './pages/add-page/add-page.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { UiService } from './services/ui.service';
+import { ReportService } from './components/report/report.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { UiService } from './services/ui.service';
     DecodePipe,
     BrowsePageComponent,
     AddPageComponent,
-    FormatAddressDirective
+    FormatAddressDirective,
+    ReportIndicatorComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { UiService } from './services/ui.service';
     })
   ],
   providers: [
+    ReportService,
     UiService,
     {
       provide: HTTP_INTERCEPTORS,
