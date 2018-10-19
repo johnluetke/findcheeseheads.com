@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 import { environment } from '../../../environments/environment';
 
-import { Report } from '../../model/venue';
+import { Report, ReportMessage } from '../../model/venue';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class ReportService {
   ];
 
   private reportsSubject = new BehaviorSubject<Report[]>(this.reports);
+  private reportMessageSubject = new BehaviorSubject<ReportMessage>(null);
   private reportTypesSubject = new BehaviorSubject<any>(this.reportTypes);
 
   public constructor(private http: HttpClient) { }
@@ -27,6 +28,10 @@ export class ReportService {
   // TODO: Is this useful?
   public get reports$(): BehaviorSubject<Report[]> {
     return this.reportsSubject;
+  }
+
+  public get reportMessage$(): BehaviorSubject<ReportMessage> {
+    return this.reportMessageSubject;
   }
 
   public get reportTypes$(): BehaviorSubject<any> {
@@ -41,9 +46,15 @@ export class ReportService {
     });
   }
 
-  public sendReport(venueId: number, report: any): Observable<string> {
+  public sendReport(venueId: number, report: any): Observable<void> {
     return this.http.post<any>(`${environment.apiUrl}/venue/${venueId}/report`, report).map(
-      result => result
+      result => {
+        const msg = new ReportMessage();
+        msg.message = result.message;
+        msg.success = true;
+        msg.venueId = venueId;
+        this.reportMessageSubject.next(msg);
+      }
     );
   }
 }
