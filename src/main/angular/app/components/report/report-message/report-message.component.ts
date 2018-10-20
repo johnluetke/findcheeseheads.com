@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReportMessage } from '../../../model/report';
+import { Venue } from '../../../model/venue';
 import { ReportService } from '../report.service';
-import { Venue, ReportMessage } from '../../../model/venue';
 
 @Component({
   selector: 'fc-report-message',
@@ -9,10 +10,10 @@ import { Venue, ReportMessage } from '../../../model/venue';
 })
 export class ReportMessageComponent implements OnInit {
 
-  @Input() venue: Venue;
+  @Input() public venue: Venue;
   private _message: ReportMessage;
 
-  get message(): ReportMessage {
+  public get message(): ReportMessage {
     return this._message;
   }
 

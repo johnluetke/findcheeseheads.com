@@ -1,13 +1,9 @@
-import { Util } from '../util'
+import { Util } from '../util';
+import { Report } from './report';
 
 export interface ICoordinates {
   lat: number;
   lng: number;
-}
-
-export interface IReport {
-  type: string;
-  count: number;
 }
 
 export interface IVenue {
@@ -19,42 +15,41 @@ export interface IVenue {
   location: ICoordinates;
   name: string;
   pending: boolean;
-  reports: IReport[];
-}
-
-export interface IVenueReportSubmission {
-  venueId: number;
-  reason: string;
-  other: string;
+  reports: Report[];
 }
 
 export class Coordinates implements ICoordinates {
-  lat: number = 0;
-  lng: number = 0;
+  public lat = 0;
+  public lng = 0;
 
-  constructor(lat: number, lng: number) {
+  public constructor(lat: number, lng: number) {
     this.lat = lat;
     this.lng = lng;
   }
 }
 
-export class Report implements IReport {
-  type: string = null;
-  count: number = undefined;
-}
-
 export class Venue implements IVenue {
-  static createFromArray(objs : any[]) : Venue[] {
-    let results : Venue[] = [];
-    for (let i in objs) {
+
+  public address: string = null;
+  public id: number = null;
+  public last_updated: Date = new Date();
+  public lat: number = null;
+  public lng: number = null;
+  public location: Coordinates = null;
+  public name: string = null;
+  public pending: boolean = null;
+  public reports: Report[] = [];
+  public static createFromArray(objs : any[]) : Venue[] {
+    const results : Venue[] = [];
+    for (const i in objs) {
       results.push(Venue.create(objs[i]));
     }
 
     return results;
   }
 
-  static create(obj : any) : Venue {
-    let venue : Venue = new Venue();
+  public static create(obj : any) : Venue {
+    const venue : Venue = new Venue();
     venue.address = obj['address'];
     venue.id = obj['id'];
     venue.last_updated = obj['last_updated'];
@@ -66,27 +61,11 @@ export class Venue implements IVenue {
     return venue;
   }
 
-  address: string = null;
-  id: number = null;
-  last_updated: Date = new Date();
-  lat: number = null;
-  lng: number = null;
-  location: Coordinates = null;
-  name: string = null;
-  pending: boolean = null;
-  reports: Report[] = [];
-
-  getReportCount(): number {
+  public getReportCount(): number {
     let count = 0;
     this.reports.forEach(function(report) {
       count += report.count;
     });
     return count;
   }
-}
-
-export class VenueReportSubmission implements IVenueReportSubmission {
-  venueId: number = null;
-  reason: string = null;
-  other: string = null;
 }

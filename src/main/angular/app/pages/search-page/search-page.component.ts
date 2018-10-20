@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Country, SearchCriteria, SearchResults } from '../../model/search';
-import { Report, VenueReportSubmission, Venue } from '../../model/venue';
 import { environment } from '../../../environments/environment';
+import { Country, SearchCriteria, SearchResults } from '../../model/search';
+import { Venue } from '../../model/venue';
 
 @Component({
   selector: 'fc-search-page',
@@ -13,19 +13,19 @@ import { environment } from '../../../environments/environment';
 })
 export class SearchPageComponent implements OnInit {
 
-  data: Model;
-  isSearching: boolean;
-  errorMessage: string;
+  public data: Model;
+  public isSearching: boolean;
+  public errorMessage: string;
+
+  public cities: string[] = [];
+  public countries: Country[] = [];
+  public venues: Venue[] = [];
+
+  public searchForm: FormGroup;
 
   private routeSubscription: any;
 
-  cities: string[] = [];
-  countries: Country[] = [];
-  venues: Venue[] = [];
-
-  searchForm: FormGroup;
-
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  public constructor(private formBuilder: FormBuilder, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.data = new Model();
     this.isSearching = false;
     this.errorMessage = "";
@@ -36,7 +36,7 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.routeSubscription = this.route.params.subscribe(params => {
       this.searchForm.patchValue({country: params['country']});
       this.searchForm.patchValue({criteria: params['query']});
@@ -58,12 +58,12 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
-  search(): void {
-    this.router.navigate(['search', this.searchForm.value.country, this.searchForm.value.criteria])
+  public search(): void {
+    this.router.navigate(['search', this.searchForm.value.country, this.searchForm.value.criteria]);
   }
 
-  performSearch() : void {
-    let self = this;
+  public performSearch() : void {
+    const self = this;
     this.isSearching = true;
     this.venues = [];
     this.http.get<any>(`${environment.apiUrl}/venue/search/${this.searchForm.value.country}/${this.searchForm.value.criteria}`).subscribe(data => {
@@ -75,22 +75,6 @@ export class SearchPageComponent implements OnInit {
       self.data.results.country = self.data.search.country;
       self.cities = data.cities;
       self.venues = Venue.createFromArray(data.results);
-
-      self.venues.forEach(function(venue: Venue) {
-        self.http.get<any>(`${environment.apiUrl}/venue/${venue.id}/report`).subscribe(reports => {
-          let rpts: Report[] = [];
-          reports.forEach(report => {
-            let rpt = new Report();
-            rpt.type = report.reason;
-            rpt.count = report.count;
-            rpts.push(rpt);
-          });
-          venue.reports = rpts;
-        },
-        error => {
-          console.error(error);
-        });
-      });
     },
     error => {
       self.isSearching = false;
@@ -101,30 +85,14 @@ export class SearchPageComponent implements OnInit {
       self.isSearching = false;
     });
   }
-
-  reportVenue($event: any, venueId: number): void {
-    $event.preventDefault();
-    if (venueId == this.data.report.venueId) {
-      this.data.report.venueId = null
-    }
-    else {
-      this.data.report.venueId = venueId;
-    }
-  }
-
-  sendVenueReport(): void {
-    debugger;
-  }
 }
 
 export class Model {
-  search: SearchCriteria;
-  report: VenueReportSubmission;
-  results: SearchResults;
+  public search: SearchCriteria;
+  public results: SearchResults;
 
-  constructor() {
+  public constructor() {
     this.search = new SearchCriteria();
-    this.report = new VenueReportSubmission();
     this.results = new SearchResults();
   }
 }

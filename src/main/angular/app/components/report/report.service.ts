@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 import { environment } from '../../../environments/environment';
 
-import { Report, ReportMessage } from '../../model/venue';
+import { Report, ReportMessage } from '../../model/report';
 
 @Injectable({
   providedIn: 'root'

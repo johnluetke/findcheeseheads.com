@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Report, Venue } from '../../../model/venue';
+import { Report } from '../../../model/report';
+import { Venue } from '../../../model/venue';
 import { ReportService } from '../report.service';
 
 @Component({
