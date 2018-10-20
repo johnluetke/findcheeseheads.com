@@ -12,21 +12,18 @@ import { environment } from '../../../environments/environment';
 })
 export class LandingPageComponent implements OnInit {
 
-  search: SearchCriteria;
   searchForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
-    this.search = new SearchCriteria();
-
     this.searchForm = this.formBuilder.group({
         country: [],
         criteria: []
     });
 
     this.http.get<any>(environment.apiUrl + '/country').subscribe(country => {
-      this.search.country = country;
+      this.searchForm.patchValue({country: country.code});
     });
   }
 
@@ -35,6 +32,6 @@ export class LandingPageComponent implements OnInit {
   }
 
   doSearch() {
-    this.router.navigate(['search', this.search.country.code, this.search.query])
+    this.router.navigate(['search', this.searchForm.value.country, this.searchForm.value.criteria])
   }
 }
