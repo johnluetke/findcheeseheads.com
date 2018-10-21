@@ -15,6 +15,8 @@ public class Venue extends BaseEntity<com.findcheeseheads.backend.model.Venue> {
     private String address;
     private double lat;
     private double lng;
+    @Transient
+    private double distance;
 
     public Integer getId() {
         return id;
@@ -56,12 +58,21 @@ public class Venue extends BaseEntity<com.findcheeseheads.backend.model.Venue> {
         this.lng = lng;
     }
 
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
     public com.findcheeseheads.backend.model.Venue toModel() {
         com.findcheeseheads.backend.model.Venue venue = new com.findcheeseheads.backend.model.Venue();
 
         venue.setId(this.id);
         venue.setName(this.name);
         venue.setAddress(this.address);
+        venue.setDistance(this.distance);
         venue.setLocation(new Location(this.lat, this.lng));
 
         return venue;

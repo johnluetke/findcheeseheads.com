@@ -10,6 +10,7 @@ public class Venue {
     private String name;
     private String address;
     private Location location;
+    private Double distance;
 
     @JsonProperty
     public Integer getId() {
@@ -36,6 +37,15 @@ public class Venue {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @JsonProperty
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
     @JsonProperty
