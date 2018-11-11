@@ -31,48 +31,55 @@ export class SearchPageComponent implements OnInit {
     this.errorMessage = "";
 
     this.searchForm = this.formBuilder.group({
-        country: [null, [Validators.required], []],
-        criteria: [null, [Validators.required], []]
+        criteria: [null, [Validators.required], []],
+        distance: [25, [Validators.required], []],
+        units: ['mi']
     });
   }
 
   ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe(params => {
-      this.searchForm.patchValue({country: params['country']});
-      this.searchForm.patchValue({criteria: params['query']});
+    this.routeSubscription = this.route.queryParams.subscribe(params => {
+      this.searchForm.patchValue({
+        criteria: params['criteria'],
+        distance: params['distance'] || 25,
+        units: params['units'] || 'mi'
+      });
 
-      // if no country provided, detect it
-      if (!this.searchForm.value.country) {
-        this.http.get<any>(environment.apiUrl + '/country').subscribe(country => {
-          this.searchForm.patchValue({country: country.code});
-        });
-      }
+      this.data.search.criteria = params['criteria'];
+      this.data.search.distance = params['distance'];
+      this.data.search.units = params['units'];
 
       if (this.searchForm.valid) {
         this.performSearch();
       }
     });
-
-    this.http.get<any>(environment.apiUrl + '/countries').subscribe(countries => {
-      this.countries = countries;
-    });
   }
 
   search(): void {
-    this.router.navigate(['search', this.searchForm.value.country, this.searchForm.value.criteria])
+    this.router.navigate(['search'], {
+      queryParams: {
+        criteria: this.searchForm.value.criteria,
+        distance: this.searchForm.value.distance,
+        units: this.searchForm.value.units
+      }
+    });
   }
 
   performSearch() : void {
     let self = this;
     this.isSearching = true;
     this.venues = [];
-    this.http.get<any>(`${environment.apiUrl}/venue/search/${this.searchForm.value.country}/${this.searchForm.value.criteria}`).subscribe(data => {
+    this.http.get<any>(`${environment.apiUrl}/venue/search` + 
+                       `?criteria=${this.searchForm.value.criteria}` + 
+                       `&distance=${this.searchForm.value.distance}` +
+                       `&units=${this.searchForm.value.units}`).subscribe(data => {
       if (data.cities == null) {
         data.cities = [];
       }
 
-      self.data.results.query = self.data.search.query;
-      self.data.results.country = self.data.search.country;
+      self.data.results.criteria = self.data.search.criteria;
+      self.data.results.distance = self.data.search.distance;
+      self.data.results.units = self.data.search.units;
       self.cities = data.cities;
       self.venues = Venue.createFromArray(data.results);
 

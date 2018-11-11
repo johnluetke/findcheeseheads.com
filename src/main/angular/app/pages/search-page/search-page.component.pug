@@ -4,16 +4,23 @@
 .container
   form([formGroup]="searchForm", (ngSubmit)="search()")
     .row
-      .col-sm-12.col-md-7
-        input.form-control(type="text", formControlName="criteria" placeholder="Search by name, city, or postal code")
-      .col-sm-12.col-md-3
-        select.form-control(formControlName="country")
-          option(*ngFor="let country of countries", [value]="country.code") {{ country.name }}
+      .col-md-1.col-form-label.d-md-flex.d-sm-none
+        label Near 
+      .col-sm-12.col-md-4
+        input.form-control(type="text", formControlName="criteria" placeholder="City, postal code, or landmark")
+      .col-sm-2.col-md-1.col-form-label
+        label within
+      .col-sm-5.col-md-1
+        input.form-control(type="text", formControlName="distance", placeholder="Distance")
+      .col-sm-5.col-md-2
+        select.form-control(formControlName="units")
+          option(value="mi") miles
+          option(value="km") kilometers
       .col-sm-12.col-md-2
         input.btn.btn-primary.form-control(type="button", value="Search", [disabled]="searchForm.invalid", (click)="search()")
 
-  .container(*ngIf="cities.length > 0")
-      p.row Results include venues in {{ cities | prettyList }}.
+  .row
+    .col-12 &nbsp;
 
 .container
   ng-container(*ngFor="let venue of venues")
@@ -21,9 +28,10 @@
 
   .alert.alert-danger(*ngIf="errorMessage.length > 0") {{ errorMessage }}
 
-  div(*ngIf="data.search.hasCriteria() && !isSearching && venues.length == 0 && errorMessage.length == 0")
-    h2 No bars were found :-(
-    .center-block.text-center
+  .row(*ngIf="data.search.hasCriteria() && !isSearching && venues.length == 0 && errorMessage.length == 0")
+    .col-12
+      h2 No bars were found :-(
+    .offset-4.col-4
       a(routerLink="/add")
         button.btn.btn-secondary(type="button") Why not add one?
 

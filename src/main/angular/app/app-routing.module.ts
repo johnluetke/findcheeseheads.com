@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'add', component: AddPageComponent },
   { path: 'browse', component: BrowsePageComponent },
   { path: 'search', component: SearchPageComponent },
-  { path: 'search/:country', component: SearchPageComponent },
+  { path: 'search/:query', component: SearchPageComponent },
   { path: 'search/:country/:query', component: SearchPageComponent }
 ];
 
