@@ -3,19 +3,19 @@
   .content
     router-outlet
   footer.container(*ngIf="showFooter()")
-    .pull-left &copy;
+    .pull-left &copy;&nbsp;
       span([innerHtml]="copyrightYear()") YYYY
-      span FindCheeseheads.com
+      span &nbsp;FindCheeseheads.com
       br
       a(href="https://github.com/johnluetke/findcheeseheads.com")
         span([innerHtml]="appRevision()") dev
         span -
         span([innerHtml]="appBranch()") master
     .pull-right.align-right
-      span A product of
+      span A product of&nbsp;
         a(href="https://reddit.com/r/GreenBayPackers") /r/GreenBayPackers
-        span and
+        span &nbsp;and&nbsp;
         a(href="https://reddit.com/r/FindCheeseheads") /r/findcheeseheads
         br
-        span Icons from
+        span Icons from&nbsp;
           a(href="https://useiconic.com/open") Open Iconic
