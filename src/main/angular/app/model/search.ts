@@ -6,11 +6,6 @@ export interface ICountry {
   name: string;
 }
 
-export interface ISearchCriteria {
-  query: string;
-  country: ICountry;
-}
-
 export interface ISearchResults {
   cities: string[];
   venues: IVenue[];
@@ -21,13 +16,15 @@ export class Country implements ICountry {
   name: string = null;
 }
 
-export class SearchCriteria implements ISearchCriteria {
-  query: string = null;
-  country: Country = new Country();
+export class SearchCriteria {
+  criteria: string = null;
+  distance: number = null;
+  units: string = null;
 
   hasCriteria(): boolean {
-    return this.query != null && this.query.length > 0 &&
-           this.country != null && this.country.code != null && this.country.code.length > 0;
+    return this.criteria != null && this.criteria.length > 0 &&
+           this.distance != null && this.distance > 0 &&
+           this.units != null && this.units.length > 0;
   }
 }
 

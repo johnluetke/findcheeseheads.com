@@ -1,10 +1,9 @@
 package com.findcheeseheads.backend.api;
 
+import com.findcheeseheads.backend.integration.GeocodeClient;
+import com.findcheeseheads.backend.integration.LocationClient;
 import com.findcheeseheads.backend.integration.ZippopotamusClient;
-import com.findcheeseheads.backend.model.Message;
-import com.findcheeseheads.backend.model.Venue;
-import com.findcheeseheads.backend.model.Report;
-import com.findcheeseheads.backend.model.VenueSearchResults;
+import com.findcheeseheads.backend.model.*;
 import com.findcheeseheads.backend.persistence.ReportRepository;
 import com.findcheeseheads.backend.persistence.VenueRepository;
 import com.findcheeseheads.backend.validation.VenueValidator;
@@ -30,6 +29,9 @@ public class VenueAPIController {
 
     @Autowired
     private ZippopotamusClient zippopotamusClient;
+
+    @Autowired
+    private GeocodeClient geocodeClient;
 
     @Autowired
     private VenueValidator venueValidator;
@@ -61,6 +63,32 @@ public class VenueAPIController {
                 "There was an error processing your submission. Please try again later."
             ));
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<VenueSearchResults> searchVenues(
+        @RequestParam(value = "criteria") String criteria,
+        @RequestParam(value = "distance", required = false, defaultValue = "25") int distance,
+        @RequestParam(value = "units", required = false, defaultValue = "mi") String units
+    ) {
+        VenueSearchResults results = new VenueSearchResults();
+        Location coords = geocodeClient.geocode(criteria);
+
+        int radius = units.equals("km") ? GeocodeClient.EARTH_RADIUS_KM : GeocodeClient.EARTH_RADIUS_MI;
+
+        results.criteria = criteria;
+        results.search.put("distance", distance);
+        results.search.put("units", units);
+        results.search.put("coords", coords);
+
+        List<com.findcheeseheads.backend.persistence.Venue> pResults =
+            venueRepository.findAllNearCoordsWithin(coords.lat, coords.lng, distance, radius);
+
+        pResults.forEach(pVenue -> {
+          results.results.add(pVenue.toModel());
+        });
+
+        return ResponseEntity.ok(results);
     }
 
     @GetMapping("/search/{country}/{criteria}")

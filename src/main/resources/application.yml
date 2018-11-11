@@ -20,6 +20,11 @@ security:
 server:
   port: 8080
 
+service:
+  geocode:
+    url: https://maps.googleapis.com/maps/api/geocode/json?address={criteria}&key={api-key}
+    api-key: 
+
 spring:
   datasource:
     url: jdbc:mysql://mysql.api.johnluetke.com:3306/FindCheeseheads?verifyServerCertificate=false&useSSL=false&requireSSL=false

@@ -18,12 +18,7 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
-        country: [],
         criteria: []
-    });
-
-    this.http.get<any>(environment.apiUrl + '/country').subscribe(country => {
-      this.searchForm.patchValue({country: country.code});
     });
   }
 
@@ -32,6 +27,10 @@ export class LandingPageComponent implements OnInit {
   }
 
   doSearch() {
-    this.router.navigate(['search', this.searchForm.value.country, this.searchForm.value.criteria])
+    this.router.navigate(['search'], {
+      queryParams: {
+        criteria: this.searchForm.value.criteria
+      } 
+    });
   }
 }
