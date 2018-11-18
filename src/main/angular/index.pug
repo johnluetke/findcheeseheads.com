@@ -6,6 +6,12 @@ html(lang="en")
     base(href="/")
     link(rel="icon", type="image/x-icon", href="favicon.ico")
     title FindCheeseheads
+    script(async, src="https://www.googletagmanager.com/gtag/js?id=UA-67293023-1")
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-67293023-1');
 
   body
     fc-root

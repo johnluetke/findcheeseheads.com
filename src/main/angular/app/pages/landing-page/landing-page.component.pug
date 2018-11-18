@@ -4,7 +4,7 @@
       h1.text-nowrap(fittext) 
         | Find 
         span.d-block.d-sm-inline Cheeseheads
-        span.d-none.d-md-inline-block Near You
+        span.d-none.d-md-inline-block &nbsp;Near You
       form#search([formGroup]="searchForm", (ngSubmit)="doSearch()")
         .input-group.has-feedback
           input.form-control.input-lg(type="text", formControlName="criteria", placeholder="Search by city or postal code")
