@@ -81,16 +81,19 @@ springBoot {
 
 task buildAngular(type:Exec) {
 	dependsOn "npmInstall"
-	workingDir "${angularDir}"
-	inputs.dir "${angularDir}"
-	outputs.dir "${buildDir}/web"
 	// Add task to the standard build group
 	group = BasePlugin.BUILD_GROUP
+	// workingDir "${angularDir}"
+	inputs.dir "${angularDir}"
+	outputs.dir "${buildDir}/web"
+
+	args = ["build", "--prod"]
+
 	// ng doesn"t exist as a file in windows -> ng.cmd
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
-		commandLine "ng.cmd", "build", "--prod"
+		executable = "node_modules/.bin/ng"
 	} else {
-		commandLine "ng", "build", "--prod"
+		executable = "node_modules/.bin/ng"
 	}
 }
 
