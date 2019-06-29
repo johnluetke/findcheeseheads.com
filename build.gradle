@@ -8,7 +8,6 @@ plugins {
 	id "com.gorylenko.gradle-git-properties" version "1.5.2"
 	id "com.moowork.node" version "1.2.0"
 	id "com.palantir.git-version" version "0.11.0"
-	id "jp.classmethod.aws" version "0.38"
 	id "org.ajoberstar.grgit" version "2.3.0"
 	id "org.springframework.boot" version "2.0.5.RELEASE"
 }
@@ -16,8 +15,6 @@ plugins {
 apply plugin: "java"
 apply plugin: "com.moowork.node"
 apply plugin: "io.spring.dependency-management"
-apply plugin: "jp.classmethod.aws.beanstalk"
-apply plugin: "jp.classmethod.aws"
 
 group = "com.findcheeseheads"
 version gitVersion()
@@ -43,27 +40,6 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 }
 
-aws {
-	profileName = "default"
-	region = "us-west-2"
-}
-
-beanstalk {
-	appName "FindCheeseheads.com"
-	appDesc ""
-
-	version {
-		label = "${project.name}-${version}"
-		description = "${project.name} v${version}"
-		bucket = "elasticbeanstalk-${aws.region}-${aws.accountId}"
-		key = "${beanstalk.appName}/${project.name}-${project.version}.zip"
-	}
-
-	environment {
-		envName = "findcheeseheads-prod"
-	}
-}
-
 gitProperties {
 	dateFormat = "yyyy-MM-dd'T'HH:mmZ"
 	dateFormatTimeZone = "PST"
@@ -77,7 +53,6 @@ processResources {
 springBoot {
 	buildInfo()
 }
-
 
 task buildAngular(type:Exec) {
 	dependsOn "npmInstall"
@@ -106,32 +81,3 @@ task copyAngular(type: Copy) {
 	from "${buildDir}/web"
 	into "${buildDir}/resources/main/static/"
 }
-
-task createEbBundleResources(type: Copy) {
-	from "src/main/eb"
-	into "build/eb-bundle"
-}
-
-task createEbBundle(type: Zip, dependsOn: [bootJar, createEbBundleResources]) {
-	archiveName = jar.archiveName.substring(0, jar.archiveName.length() - 4) + "-eb.zip"
-	from "build/eb-bundle"
-	from (jar.archivePath) {
-		rename { "application.jar" }
-	}
-}
-
-task uploadEbBundle(type: jp.classmethod.aws.gradle.s3.AmazonS3FileUploadTask, dependsOn: createEbBundle) {
-	group "AWS"
-	description "Upload ${project.name} application bundle file to S3."
-
-	bucketName "elasticbeanstalk-${aws.region}-${aws.accountId}"
-	key "${beanstalk.appName}/${project.name}-${project.version}.zip"
-	file project.createEbBundle.archivePath
-	overwrite project.version.endsWith("-SNAPSHOT")
-
-	doLast {
-		println("Uploaded ${beanstalk.version.key}")
-	}
-}
-
-awsEbCreateApplicationVersion.dependsOn uploadEbBundle
