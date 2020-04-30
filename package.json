@@ -31,7 +31,7 @@
     "angular-fittext": "^2.1.1",
     "bootstrap": "^4.1.x",
     "core-js": "^2.5.7",
-    "jquery": "^1.9.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.14.4",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.0.0-rc.0",
