@@ -43,7 +43,7 @@
     "@angular/compiler-cli": "^7.0.3",
     "@angular/language-service": "^7.0.3",
     "npm-run-all": "<4.1",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "typescript": "~3.1.6"
   }
 }
